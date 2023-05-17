@@ -86,7 +86,7 @@ func (c *Client) ListProjects(ctx context.Context, w config.Wildcard) ([]schemas
 					Archived:    &w.Archived,
 					ListOptions: listOptions,
 					Search:      &w.Search,
-					//Simple:      true,
+					// Simple:      true,
 				},
 				goGitlab.WithContext(ctx),
 			)
@@ -99,7 +99,7 @@ func (c *Client) ListProjects(ctx context.Context, w config.Wildcard) ([]schemas
 					IncludeSubGroups: &w.Owner.IncludeSubgroups,
 					ListOptions:      listOptions,
 					Search:           &w.Search,
-					//Simple:           true,
+					// Simple:           true,
 				},
 				goGitlab.WithContext(ctx),
 			)
@@ -110,7 +110,7 @@ func (c *Client) ListProjects(ctx context.Context, w config.Wildcard) ([]schemas
 					ListOptions: listOptions,
 					Archived:    &w.Archived,
 					Search:      &w.Search,
-					//Simple:      true,
+					// Simple:      true,
 				},
 				goGitlab.WithContext(ctx),
 			)
