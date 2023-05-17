@@ -98,9 +98,8 @@ snapcrafts:
 
 dockers:
   - image_templates:
-      - 'docker.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64'
-      - 'ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64'
-      - 'quay.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64'
+      - 'docker.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64'
+      - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: amd64
     use: buildx
@@ -116,9 +115,8 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64'
-      - 'ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64'
-      - 'quay.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64'
+      - 'docker.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64'
+      - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: arm64
     use: buildx
@@ -134,9 +132,8 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6'
-      - 'ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6'
-      - 'quay.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6'
+      - 'docker.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6'
+      - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: arm
     goarm: 6
@@ -153,9 +150,8 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7'
-      - 'ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7'
-      - 'quay.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7'
+      - 'docker.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7'
+      - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: arm
     goarm: 7
@@ -172,26 +168,19 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
 docker_manifests:
-  - name_template: docker.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}
+  - name_template: docker.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}
     image_templates:
-      - docker.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64
-      - docker.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64
-      - docker.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6
-      - docker.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7
+      - docker.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64
+      - docker.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64
+      - docker.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6
+      - docker.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7
 
-  - name_template: ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}
+  - name_template: ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}
     image_templates:
-      - ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64
-      - ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64
-      - ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6
-      - ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7
-
-  - name_template: quay.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}
-    image_templates:
-      - quay.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64
-      - quay.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64
-      - quay.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6
-      - quay.io/mvisonneau/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7
+      - ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-amd64
+      - ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-arm64
+      - ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv6
+      - ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:{{ .Tag }}-armv7
 
 checksum:
   name_template: '{{ .ProjectName }}_{{ .Tag }}_sha512sums.txt'

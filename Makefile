@@ -1,6 +1,6 @@
 NAME          := gitlab-ci-pipelines-exporter
 FILES         := $(shell git ls-files */*.go)
-REPOSITORY    := mvisonneau/$(NAME)
+REPOSITORY    := blaketigges/$(NAME)
 .DEFAULT_GOAL := help
 
 .PHONY: setup
@@ -12,7 +12,7 @@ setup: ## Install required libraries/tools for build tasks
 .PHONY: fmt
 fmt: setup ## Format source code
 	gofumpt -w $(FILES)
-	gci write -s standard -s default -s "prefix(github.com/mvisonneau)" .
+	gci write -s standard -s default -s "prefix(github.com/blaketigges)" .
 
 .PHONY: lint
 lint: setup ## Run all lint related tests upon the codebase
