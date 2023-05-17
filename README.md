@@ -1,11 +1,11 @@
 # 🦊 gitlab-ci-pipelines-exporter
 
-[![PkgGoDev](https://pkg.go.dev/badge/github.com/mvisonneau/gitlab-ci-pipelines-exporter)](https://pkg.go.dev/mod/github.com/mvisonneau/gitlab-ci-pipelines-exporter)
-[![Go Report Card](https://goreportcard.com/badge/github.com/mvisonneau/gitlab-ci-pipelines-exporter)](https://goreportcard.com/report/github.com/mvisonneau/gitlab-ci-pipelines-exporter)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/blaketigges/gitlab-ci-pipelines-exporter)](https://pkg.go.dev/mod/github.com/blaketigges/gitlab-ci-pipelines-exporter)
+[![Go Report Card](https://goreportcard.com/badge/github.com/blaketigges/gitlab-ci-pipelines-exporter)](https://goreportcard.com/report/github.com/blaketigges/gitlab-ci-pipelines-exporter)
 [![Docker Pulls](https://img.shields.io/docker/pulls/mvisonneau/gitlab-ci-pipelines-exporter.svg)](https://hub.docker.com/r/mvisonneau/gitlab-ci-pipelines-exporter/)
-[![test](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/actions/workflows/test.yml/badge.svg)](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/actions/workflows/test.yml)
+[![test](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/actions/workflows/test.yml/badge.svg)](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/actions/workflows/test.yml)
 [![Coverage Status](https://coveralls.io/repos/github/mvisonneau/gitlab-ci-pipelines-exporter/badge.svg?branch=main)](https://coveralls.io/github/mvisonneau/gitlab-ci-pipelines-exporter?branch=main)
-[![release](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/actions/workflows/release.yml/badge.svg)](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/actions/workflows/release.yml)
+[![release](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/actions/workflows/release.yml/badge.svg)](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/actions/workflows/release.yml)
 [![gitlab-ci-pipelines-exporter](https://snapcraft.io/gitlab-ci-pipelines-exporter/badge.svg)](https://snapcraft.io/gitlab-ci-pipelines-exporter)
 
 `gitlab-ci-pipelines-exporter` allows you to monitor your [GitLab CI pipelines](https://docs.gitlab.com/ee/ci/pipelines/) with [Prometheus](https://prometheus.io/) or any monitoring solution supporting the [OpenMetrics](https://github.com/OpenObservability/OpenMetrics) format.
@@ -41,7 +41,7 @@ If you want to quickly try them out with your own data, have a look into the [ex
 ### Go
 
 ```bash
-~$ go install github.com/mvisonneau/gitlab-ci-pipelines-exporter/cmd/gitlab-ci-pipelines-exporter@latest
+~$ go install github.com/blaketigges/gitlab-ci-pipelines-exporter/cmd/gitlab-ci-pipelines-exporter@latest
 ```
 
 ### Snapcraft
@@ -79,7 +79,7 @@ If you want to quickly try them out with your own data, have a look into the [ex
 
 ### Binaries, DEB and RPM packages
 
-Have a look onto the [latest release page](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/releases/latest) to pick your flavor and version. Here is an helper to fetch the most recent one:
+Have a look onto the [latest release page](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/releases/latest) to pick your flavor and version. Here is an helper to fetch the most recent one:
 
 ```bash
 ~$ export GCPE_VERSION=$(curl -s "https://api.github.com/repos/mvisonneau/gitlab-ci-pipelines-exporter/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
@@ -87,15 +87,15 @@ Have a look onto the [latest release page](https://github.com/mvisonneau/gitlab-
 
 ```bash
 # Binary (eg: linux/amd64)
-~$ wget https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/releases/download/${GCPE_VERSION}/gitlab-ci-pipelines-exporter_${GCPE_VERSION}_linux_amd64.tar.gz
+~$ wget https://github.com/blaketigges/gitlab-ci-pipelines-exporter/releases/download/${GCPE_VERSION}/gitlab-ci-pipelines-exporter_${GCPE_VERSION}_linux_amd64.tar.gz
 ~$ tar zxvf gitlab-ci-pipelines-exporter_${GCPE_VERSION}_linux_amd64.tar.gz -C /usr/local/bin
 
 # DEB package (eg: linux/386)
-~$ wget https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/releases/download/${GCPE_VERSION}/gitlab-ci-pipelines-exporter_${GCPE_VERSION}_linux_386.deb
+~$ wget https://github.com/blaketigges/gitlab-ci-pipelines-exporter/releases/download/${GCPE_VERSION}/gitlab-ci-pipelines-exporter_${GCPE_VERSION}_linux_386.deb
 ~$ dpkg -i gitlab-ci-pipelines-exporter_${GCPE_VERSION}_linux_386.deb
 
 # RPM package (eg: linux/arm64)
-~$ wget https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/releases/download/${GCPE_VERSION}/gitlab-ci-pipelines-exporter_${GCPE_VERSION}_linux_arm64.rpm
+~$ wget https://github.com/blaketigges/gitlab-ci-pipelines-exporter/releases/download/${GCPE_VERSION}/gitlab-ci-pipelines-exporter_${GCPE_VERSION}_linux_arm64.rpm
 ~$ rpm -ivh gitlab-ci-pipelines-exporter_${GCPE_VERSION}_linux_arm64.rpm
 ```
 
@@ -354,4 +354,4 @@ If you use docker, you can easily get started using :
 
 ## Contribute
 
-Contributions are more than welcome! Feel free to submit a [PR](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/pulls).
+Contributions are more than welcome! Feel free to submit a [PR](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/pulls).

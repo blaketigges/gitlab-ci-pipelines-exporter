@@ -1,4 +1,4 @@
-module github.com/mvisonneau/gitlab-ci-pipelines-exporter
+module github.com/blaketigges/gitlab-ci-pipelines-exporter
 
 go 1.19
 

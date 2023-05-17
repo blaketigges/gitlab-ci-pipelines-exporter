@@ -12,7 +12,7 @@
       }
     ]
   },
-  "description": "This dashboard leverages the Prometheus exporter I wrote to fetch information about GitLab CI pipelines statuses. More information here: https://github.com/mvisonneau/gitlab-ci-pipelines-exporter",
+  "description": "This dashboard leverages the Prometheus exporter I wrote to fetch information about GitLab CI pipelines statuses. More information here: https://github.com/blaketigges/gitlab-ci-pipelines-exporter",
   "editable": true,
   "gnetId": 10620,
   "graphTooltip": 0,

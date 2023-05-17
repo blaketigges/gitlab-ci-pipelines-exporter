@@ -8,8 +8,8 @@ import (
 	"github.com/imdario/mergo"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/schemas"
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/store"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
 )
 
 // GarbageCollectProjects ..

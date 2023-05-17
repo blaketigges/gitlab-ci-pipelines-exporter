@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/xanzy/go-gitlab"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 )
 
 func TestGetRefPipeline(t *testing.T) {

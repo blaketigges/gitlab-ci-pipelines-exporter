@@ -16,8 +16,8 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/xeonx/timeago"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/monitor/client"
-	pb "github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/monitor/protobuf"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor/client"
+	pb "github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor/protobuf"
 )
 
 type tab string
@@ -318,7 +318,7 @@ func (m *model) View() string {
 	// Status bar.
 	{
 		bar := lipgloss.JoinHorizontal(lipgloss.Top,
-			statusStyle.Render("github.com/mvisonneau/gitlab-ci-pipelines-exporter"),
+			statusStyle.Render("github.com/blaketigges/gitlab-ci-pipelines-exporter"),
 			statusText.Copy().
 				Width(max(0, m.vp.Width-(55+len(m.version)))).
 				Render(""),

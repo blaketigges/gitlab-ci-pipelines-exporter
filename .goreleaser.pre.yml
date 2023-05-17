@@ -37,7 +37,7 @@ nfpms:
   - maintainer: &author Maxime VISONNEAU <maxime.visonneau@gmail.com>
     description: &description GitLab CI pipelines exporter (prometheus/open-metrics)
     license: &license Apache-2.0
-    homepage: &homepage https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+    homepage: &homepage https://github.com/blaketigges/gitlab-ci-pipelines-exporter
     vendor: *author
     file_name_template: '{{ .ProjectName }}_edge_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     bindir: /usr/local/bin
@@ -88,8 +88,8 @@ dockers:
       - --platform=linux/amd64
       - --label=org.opencontainers.image.title={{ .ProjectName }}
       - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.url=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.source=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
@@ -106,8 +106,8 @@ dockers:
       - --platform=linux/arm64
       - --label=org.opencontainers.image.title={{ .ProjectName }}
       - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.url=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.source=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
@@ -125,8 +125,8 @@ dockers:
       - --platform=linux/arm/v6
       - --label=org.opencontainers.image.title={{ .ProjectName }}
       - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.url=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.source=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
@@ -144,8 +144,8 @@ dockers:
       - --platform=linux/arm/v7
       - --label=org.opencontainers.image.title={{ .ProjectName }}
       - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.url=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.source=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
       - --label=org.opencontainers.image.revision={{ .FullCommit }}

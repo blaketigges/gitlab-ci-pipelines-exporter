@@ -10,3 +10,10 @@ gitlab-ci-pipelines-exporter
 coverage.out
 .waypoint
 .*.sock
+*.vpwhistu
+*.vpwhist
+*.vtg
+*.vpw
+*.vpj
+*.vpwwildcardcache
+

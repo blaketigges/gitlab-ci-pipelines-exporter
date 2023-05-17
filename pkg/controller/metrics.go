@@ -8,9 +8,9 @@ import (
 	"github.com/prometheus/client_golang/prometheus"
 	log "github.com/sirupsen/logrus"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/gitlab"
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/schemas"
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/store"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/gitlab"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
 )
 
 // Registry wraps a pointer of prometheus.Registry.

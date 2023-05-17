@@ -12,7 +12,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	goGitlab "github.com/xanzy/go-gitlab"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/ratelimit"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
 )
 
 // Mocking helpers.

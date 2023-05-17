@@ -17,11 +17,11 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 	"google.golang.org/grpc"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/config"
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/gitlab"
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/ratelimit"
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/schemas"
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/store"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/gitlab"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
 )
 
 const tracerName = "gitlab-ci-pipelines-exporter"
