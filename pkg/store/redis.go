@@ -6,10 +6,9 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 	"github.com/go-redis/redis/v8"
 	"github.com/vmihailenco/msgpack/v5"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 )
 
 const (

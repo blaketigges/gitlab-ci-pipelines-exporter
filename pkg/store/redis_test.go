@@ -5,12 +5,11 @@ import (
 	"time"
 
 	"github.com/alicebob/miniredis/v2"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/stretchr/testify/assert"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 )
 
 func newTestRedisStore(t *testing.T) (mr *miniredis.Miniredis, r Store) {

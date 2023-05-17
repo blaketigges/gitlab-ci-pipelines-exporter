@@ -6,11 +6,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/stretchr/testify/assert"
-
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGarbageCollectProjects(t *testing.T) {

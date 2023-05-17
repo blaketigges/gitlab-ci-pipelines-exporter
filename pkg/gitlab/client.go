@@ -8,12 +8,11 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
 	"github.com/heptiolabs/healthcheck"
 	"github.com/paulbellamy/ratecounter"
 	goGitlab "github.com/xanzy/go-gitlab"
 	"go.opentelemetry.io/otel"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
 )
 
 const (

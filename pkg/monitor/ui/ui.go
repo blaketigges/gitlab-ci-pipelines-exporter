@@ -9,15 +9,14 @@ import (
 	"strings"
 	"time"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor/client"
+	pb "github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor/protobuf"
 	"github.com/charmbracelet/bubbles/progress"
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
 	log "github.com/sirupsen/logrus"
 	"github.com/xeonx/timeago"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor/client"
-	pb "github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor/protobuf"
 )
 
 type tab string

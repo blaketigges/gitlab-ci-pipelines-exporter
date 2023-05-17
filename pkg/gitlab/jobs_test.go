@@ -6,9 +6,8 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestListRefPipelineJobs(t *testing.T) {

@@ -9,11 +9,10 @@ import (
 	"syscall"
 	"time"
 
-	log "github.com/sirupsen/logrus"
-	"github.com/urfave/cli/v2"
-
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/controller"
 	monitoringServer "github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor/server"
+	log "github.com/sirupsen/logrus"
+	"github.com/urfave/cli/v2"
 )
 
 // Run launches the exporter.

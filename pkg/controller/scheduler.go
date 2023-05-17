@@ -5,6 +5,10 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
 	"github.com/go-redis/redis/v8"
 	log "github.com/sirupsen/logrus"
 	"github.com/vmihailenco/taskq/v3"
@@ -12,11 +16,6 @@ import (
 	"github.com/vmihailenco/taskq/v3/redisq"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
 )
 
 const bufferSize = 1000

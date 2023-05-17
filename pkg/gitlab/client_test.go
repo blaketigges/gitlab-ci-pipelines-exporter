@@ -8,11 +8,10 @@ import (
 	"testing"
 	"time"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
 	"github.com/paulbellamy/ratecounter"
 	"github.com/stretchr/testify/assert"
 	goGitlab "github.com/xanzy/go-gitlab"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
 )
 
 // Mocking helpers.

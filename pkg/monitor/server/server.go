@@ -6,16 +6,15 @@ import (
 	"os"
 	"time"
 
-	log "github.com/sirupsen/logrus"
-	"google.golang.org/grpc"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/gitlab"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor"
 	pb "github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor/protobuf"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
+	log "github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // Server ..
