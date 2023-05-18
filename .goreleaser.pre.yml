@@ -66,16 +66,6 @@ nfpms:
 release:
   disable: true
 
-snapcrafts:
-  - summary: GitLab CI pipelines exporter (prometheus/open-metrics)
-    description: Monitor GitLab CI pipelines related metrics.
-    license: Apache-2.0
-    confinement: strict
-    grade: devel
-    apps:
-      gitlab-ci-pipelines-exporter:
-        plugs: [home, network, network-bind]
-
 dockers:
   - image_templates:
       - 'docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest-amd64'
@@ -167,7 +157,7 @@ signs:
     args:
       [
         '-u',
-        'C09CA9F71C5C988E65E3E5FCADEA38EDC46F25BE',
+        '1EEC1646CB842ECAE45B40D48A30F844CEB624DA',
         '--output',
         '${signature}',
         '--detach-sign',
