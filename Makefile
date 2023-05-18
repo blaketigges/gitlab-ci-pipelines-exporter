@@ -20,7 +20,7 @@ lint: setup ## Run all lint related tests upon the codebase
 
 .PHONY: test
 test: ## Run the tests against the codebase
-	go test -v -count=1 -race ./...
+	go test -v -count=5 -race ./...
 
 .PHONY: install
 install: ## Build and install locally the binary (dev purpose)
