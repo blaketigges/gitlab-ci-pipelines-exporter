@@ -4,7 +4,7 @@ set -ex
 
 RELEASE_ID=$(curl -sL https://api.github.com/repos/${REPOSITORY}/releases/tags/edge | jq -r .id)
 HEAD_SHA=$(curl -sL https://api.github.com/repos/${REPOSITORY}/git/refs/heads/main | jq -r .object.sha)
-PRERELEASE_TAG=$(git describe --always --abbrev=7 --tags --exclude=edge)
+PRERELEASE_TAG=$(v1.0.5)
 
 # Bump the edge tag to the head of main
 #curl -sL \
