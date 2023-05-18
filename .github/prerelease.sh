@@ -22,7 +22,7 @@ PRERELEASE_TAG=$(git describe --always --abbrev=7 --tags --exclude=edge)
 #trap cleanup EXIT
 
 # Build the binaries using a prerelease tag
-git tag -d edge
+#git tag -d edge
 git tag -f ${PRERELEASE_TAG}
 goreleaser release \
     --rm-dist \
