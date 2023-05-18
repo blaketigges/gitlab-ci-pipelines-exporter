@@ -24,7 +24,7 @@ PRERELEASE_TAG=$(git describe --always --abbrev=7 --tags --exclude=edge)
 # Build the binaries using a prerelease tag
 #git tag -d edge
 git tag -f ${PRERELEASE_TAG}
-~/go/bin/goreleaser release \
+goreleaser release \
     --rm-dist \
     --skip-validate \
     -f .goreleaser.pre.yml
