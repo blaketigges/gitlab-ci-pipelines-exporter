@@ -32,9 +32,11 @@ func TestNewCollectorFunctions(t *testing.T) {
 		NewCollectorJobQueuedDurationSeconds,
 		NewCollectorJobStatus,
 		NewCollectorJobTimestamp,
+		NewCollectorJobStartTime,
 		NewCollectorQueuedDurationSeconds,
 		NewCollectorStatus,
 		NewCollectorTimestamp,
+		NewCollectorStartTime,
 	} {
 		c := f()
 		assert.NotNil(t, c)

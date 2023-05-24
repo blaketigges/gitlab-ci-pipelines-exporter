@@ -10,6 +10,7 @@ type Job struct {
 	Name                  string
 	Stage                 string
 	Timestamp             float64
+	StartTime             float64
 	DurationSeconds       float64
 	QueuedDurationSeconds float64
 	Status                string
@@ -30,6 +31,7 @@ func NewJob(gj goGitlab.Job) Job {
 	var (
 		artifactSize float64
 		timestamp    float64
+		starttime    float64
 	)
 
 	for _, artifact := range gj.Artifacts {
@@ -40,11 +42,16 @@ func NewJob(gj goGitlab.Job) Job {
 		timestamp = float64(gj.CreatedAt.Unix())
 	}
 
+	if gj.StartedAt != nil {
+		starttime = float64(gj.StartedAt.Unix())
+	}
+
 	return Job{
 		ID:                    gj.ID,
 		Name:                  gj.Name,
 		Stage:                 gj.Stage,
 		Timestamp:             timestamp,
+		StartTime:             starttime,
 		DurationSeconds:       gj.Duration,
 		QueuedDurationSeconds: gj.QueuedDuration,
 		Status:                gj.Status,

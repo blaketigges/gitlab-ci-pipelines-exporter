@@ -63,6 +63,9 @@ const (
 	// MetricKindJobTimestamp ..
 	MetricKindJobTimestamp
 
+	// MetricKindJobStartTime ..
+	MetricKindJobStartTime
+
 	// MetricKindQueuedDurationSeconds ..
 	MetricKindQueuedDurationSeconds
 
@@ -74,6 +77,9 @@ const (
 
 	// MetricKindTimestamp ..
 	MetricKindTimestamp
+
+	// MetricKindStartTime ..
+	MetricKindStartTime
 
 	// MetricKindTestReportTotalTime ..
 	MetricKindTestReportTotalTime
@@ -133,14 +139,14 @@ func (m Metric) Key() MetricKey {
 	key := strconv.Itoa(int(m.Kind))
 
 	switch m.Kind {
-	case MetricKindCoverage, MetricKindDurationSeconds, MetricKindID, MetricKindQueuedDurationSeconds, MetricKindRunCount, MetricKindStatus, MetricKindTimestamp, MetricKindTestReportTotalCount, MetricKindTestReportErrorCount, MetricKindTestReportFailedCount, MetricKindTestReportSkippedCount, MetricKindTestReportSuccessCount, MetricKindTestReportTotalTime:
+	case MetricKindCoverage, MetricKindDurationSeconds, MetricKindID, MetricKindQueuedDurationSeconds, MetricKindRunCount, MetricKindStatus, MetricKindTimestamp, MetricKindStartTime, MetricKindTestReportTotalCount, MetricKindTestReportErrorCount, MetricKindTestReportFailedCount, MetricKindTestReportSkippedCount, MetricKindTestReportSuccessCount, MetricKindTestReportTotalTime:
 		key += fmt.Sprintf("%v", []string{
 			m.Labels["project"],
 			m.Labels["kind"],
 			m.Labels["ref"],
 		})
 
-	case MetricKindJobArtifactSizeBytes, MetricKindJobDurationSeconds, MetricKindJobID, MetricKindJobQueuedDurationSeconds, MetricKindJobRunCount, MetricKindJobStatus, MetricKindJobTimestamp:
+	case MetricKindJobArtifactSizeBytes, MetricKindJobDurationSeconds, MetricKindJobID, MetricKindJobQueuedDurationSeconds, MetricKindJobRunCount, MetricKindJobStatus, MetricKindJobTimestamp, MetricKindJobStartTime:
 		key += fmt.Sprintf("%v", []string{
 			m.Labels["project"],
 			m.Labels["kind"],

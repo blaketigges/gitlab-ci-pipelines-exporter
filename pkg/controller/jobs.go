@@ -137,6 +137,12 @@ func (c *Controller) ProcessJobMetrics(ctx context.Context, ref schemas.Ref, job
 		Labels: labels,
 	}
 
+	storeSetMetric(ctx, c.Store, schemas.Metric{
+		Kind:   schemas.MetricKindJobStartTime,
+		Labels: labels,
+		Value:  job.StartTime,
+	})
+
 	// If the metric does not exist yet, start with 0 instead of 1
 	// this could cause some false positives in prometheus
 	// when restarting the exporter otherwise
