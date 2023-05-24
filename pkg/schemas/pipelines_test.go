@@ -29,6 +29,7 @@ func TestNewPipeline(t *testing.T) {
 		ID:                    21,
 		Coverage:              25.6,
 		Timestamp:             1.60155755e+09,
+		StartTime:             1.60155751e+09,
 		DurationSeconds:       15,
 		QueuedDurationSeconds: 5,
 		Status:                "running",

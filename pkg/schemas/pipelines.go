@@ -13,6 +13,7 @@ type Pipeline struct {
 	ID                    int
 	Coverage              float64
 	Timestamp             float64
+	StartTime             float64
 	DurationSeconds       float64
 	QueuedDurationSeconds float64
 	Status                string
@@ -48,6 +49,7 @@ func NewPipeline(ctx context.Context, gp goGitlab.Pipeline) Pipeline {
 		coverage  float64
 		err       error
 		timestamp float64
+		starttime float64
 	)
 
 	if gp.Coverage != "" {
@@ -63,10 +65,15 @@ func NewPipeline(ctx context.Context, gp goGitlab.Pipeline) Pipeline {
 		timestamp = float64(gp.UpdatedAt.Unix())
 	}
 
+	if gp.StartedAt != nil {
+		starttime = float64(gp.StartedAt.Unix())
+	}
+
 	return Pipeline{
 		ID:                    gp.ID,
 		Coverage:              coverage,
 		Timestamp:             timestamp,
+		StartTime:             starttime,
 		DurationSeconds:       float64(gp.Duration),
 		QueuedDurationSeconds: float64(gp.QueuedDuration),
 		Status:                gp.Status,

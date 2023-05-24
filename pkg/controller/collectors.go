@@ -320,6 +320,17 @@ func NewCollectorJobTimestamp() prometheus.Collector {
 	)
 }
 
+// NewCollectorJobStartTime returns a new collector for the gitlab_ci_pipeline_job_start_time metric.
+func NewCollectorJobStartTime() prometheus.Collector {
+	return prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "gitlab_ci_pipeline_job_start_time",
+			Help: "Start time of the most recent job",
+		},
+		append(defaultLabels, jobLabels...),
+	)
+}
+
 // NewCollectorStatus returns a new collector for the gitlab_ci_pipeline_status metric.
 func NewCollectorStatus() prometheus.Collector {
 	return prometheus.NewGaugeVec(
@@ -337,6 +348,17 @@ func NewCollectorTimestamp() prometheus.Collector {
 		prometheus.GaugeOpts{
 			Name: "gitlab_ci_pipeline_timestamp",
 			Help: "Timestamp of the last update of the most recent pipeline",
+		},
+		defaultLabels,
+	)
+}
+
+// NewCollectorStartTime returns a new collector for the gitlab_ci_pipeline_start_time metric.
+func NewCollectorStartTime() prometheus.Collector {
+	return prometheus.NewGaugeVec(
+		prometheus.GaugeOpts{
+			Name: "gitlab_ci_pipeline_start_time",
+			Help: "Start time of the most recent pipeline",
 		},
 		defaultLabels,
 	)

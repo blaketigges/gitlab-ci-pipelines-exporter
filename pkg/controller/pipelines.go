@@ -137,6 +137,12 @@ func (c *Controller) PullRefMetrics(ctx context.Context, ref schemas.Ref) error 
 			Value:  pipeline.Timestamp,
 		})
 
+		storeSetMetric(ctx, c.Store, schemas.Metric{
+			Kind:   schemas.MetricKindStartTime,
+			Labels: ref.DefaultLabelsValues(),
+			Value:  pipeline.StartTime,
+		})
+
 		if ref.Project.Pull.Pipeline.Jobs.Enabled {
 			if err := c.PullRefPipelineJobsMetrics(ctx, ref); err != nil {
 				return err
