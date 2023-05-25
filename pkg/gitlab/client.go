@@ -14,7 +14,7 @@ import (
 	goGitlab "github.com/xanzy/go-gitlab"
 	"go.opentelemetry.io/otel"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/ratelimit"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
 )
 
 const (

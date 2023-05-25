@@ -9,7 +9,7 @@ import (
 	goGitlab "github.com/xanzy/go-gitlab"
 	"golang.org/x/exp/slices"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 )
 
 // PullRefMetrics ..

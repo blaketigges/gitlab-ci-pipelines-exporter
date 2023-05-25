@@ -7,7 +7,7 @@ import (
 	log "github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 )
 
 func TestMetricLogFields(t *testing.T) {

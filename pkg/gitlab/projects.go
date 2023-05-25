@@ -11,8 +11,8 @@ import (
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/config"
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 )
 
 // GetProject ..

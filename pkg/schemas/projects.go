@@ -4,7 +4,7 @@ import (
 	"hash/crc32"
 	"strconv"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 )
 
 // Project ..

@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 )
 
 func newMockedGitlabAPIServer() (mux *http.ServeMux, srv *httptest.Server) {

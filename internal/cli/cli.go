@@ -7,7 +7,7 @@ import (
 
 	"github.com/urfave/cli/v2"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/internal/cmd"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/internal/cmd"
 )
 
 // Run handles the instanciation of the CLI application.

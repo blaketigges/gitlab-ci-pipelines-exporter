@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/internal/cli"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/internal/cli"
 )
 
 var version = "devel"

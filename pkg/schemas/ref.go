@@ -6,7 +6,7 @@ import (
 	"regexp"
 	"strconv"
 
-	"github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 )
 
 const (

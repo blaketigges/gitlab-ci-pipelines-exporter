@@ -3,7 +3,7 @@ package cmd
 import (
 	"github.com/urfave/cli/v2"
 
-	monitorUI "github.com/mvisonneau/gitlab-ci-pipelines-exporter/pkg/monitor/ui"
+	monitorUI "github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor/ui"
 )
 
 // Monitor ..
