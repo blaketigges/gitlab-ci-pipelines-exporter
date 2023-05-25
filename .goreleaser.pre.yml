@@ -38,7 +38,7 @@ nfpms:
   - maintainer: &author Maxime VISONNEAU <maxime.visonneau@gmail.com>
     description: &description GitLab CI pipelines exporter (prometheus/open-metrics)
     license: &license Apache-2.0
-    homepage: &homepage https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+    homepage: &homepage https://github.com/blaketigges/gitlab-ci-pipelines-exporter
     vendor: *author
     file_name_template: '{{ .ProjectName }}_edge_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
     bindir: /usr/local/bin
@@ -67,21 +67,10 @@ nfpms:
 release:
   disable: true
 
-snapcrafts:
-  - summary: GitLab CI pipelines exporter (prometheus/open-metrics)
-    description: Monitor GitLab CI pipelines related metrics.
-    license: Apache-2.0
-    confinement: strict
-    grade: devel
-    apps:
-      gitlab-ci-pipelines-exporter:
-        plugs: [home, network, network-bind]
-
 dockers:
   - image_templates:
-      - 'docker.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-amd64'
-      - 'ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-amd64'
-      - 'quay.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-amd64'
+      - 'docker.io/btigges/gitlab-ci-pipelines-exporter:latest-amd64'
+      - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-amd64'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: amd64
     use: buildx
@@ -89,17 +78,16 @@ dockers:
       - --platform=linux/amd64
       - --label=org.opencontainers.image.title={{ .ProjectName }}
       - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.url=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.source=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-arm64'
-      - 'ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-arm64'
-      - 'quay.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-arm64'
+      - 'docker.io/btigges/gitlab-ci-pipelines-exporter:latest-arm64'
+      - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-arm64'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: arm64
     use: buildx
@@ -107,17 +95,16 @@ dockers:
       - --platform=linux/arm64
       - --label=org.opencontainers.image.title={{ .ProjectName }}
       - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.url=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.source=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv6'
-      - 'ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv6'
-      - 'quay.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv6'
+      - 'docker.io/btigges/gitlab-ci-pipelines-exporter:latest-armv6'
+      - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv6'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: arm
     goarm: 6
@@ -126,17 +113,16 @@ dockers:
       - --platform=linux/arm/v6
       - --label=org.opencontainers.image.title={{ .ProjectName }}
       - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.url=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.source=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv7'
-      - 'ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv7'
-      - 'quay.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv7'
+      - 'docker.io/btigges/gitlab-ci-pipelines-exporter:latest-armv7'
+      - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv7'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: arm
     goarm: 7
@@ -145,41 +131,34 @@ dockers:
       - --platform=linux/arm/v7
       - --label=org.opencontainers.image.title={{ .ProjectName }}
       - --label=org.opencontainers.image.description={{ .ProjectName }}
-      - --label=org.opencontainers.image.url=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
-      - --label=org.opencontainers.image.source=https://github.com/mvisonneau/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.url=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
+      - --label=org.opencontainers.image.source=https://github.com/blaketigges/gitlab-ci-pipelines-exporter
       - --label=org.opencontainers.image.version={{ .Version }}
       - --label=org.opencontainers.image.created={{ time "2006-01-02T15:04:05Z07:00" }}
       - --label=org.opencontainers.image.revision={{ .FullCommit }}
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
 docker_manifests:
-  - name_template: docker.io/mvisonneau/gitlab-ci-pipelines-exporter:latest
+  - name_template: docker.io/btigges/gitlab-ci-pipelines-exporter:latest
     image_templates:
-      - docker.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-amd64
-      - docker.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-arm64
-      - docker.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv6
-      - docker.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv7
+      - docker.io/btigges/gitlab-ci-pipelines-exporter:latest-amd64
+      - docker.io/btigges/gitlab-ci-pipelines-exporter:latest-arm64
+      - docker.io/btigges/gitlab-ci-pipelines-exporter:latest-armv6
+      - docker.io/btigges/gitlab-ci-pipelines-exporter:latest-armv7
 
-  - name_template: ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:latest
+  - name_template: ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest
     image_templates:
-      - ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-amd64
-      - ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-arm64
-      - ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv6
-      - ghcr.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv7
-
-  - name_template: quay.io/mvisonneau/gitlab-ci-pipelines-exporter:latest
-    image_templates:
-      - quay.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-amd64
-      - quay.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-arm64
-      - quay.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv6
-      - quay.io/mvisonneau/gitlab-ci-pipelines-exporter:latest-armv7
+      - ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-amd64
+      - ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-arm64
+      - ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv6
+      - ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv7
 
 signs:
   - artifacts: checksum
     args:
       [
         '-u',
-        'C09CA9F71C5C988E65E3E5FCADEA38EDC46F25BE',
+        '1EEC1646CB842ECAE45B40D48A30F844CEB624DA',
         '--output',
         '${signature}',
         '--detach-sign',

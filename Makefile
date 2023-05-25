@@ -1,7 +1,7 @@
 NAME          := gitlab-ci-pipelines-exporter
 FILES         := $(shell git ls-files */*.go)
 COVERAGE_FILE := coverage.out
-REPOSITORY    := mvisonneau/$(NAME)
+REPOSITORY    := blaketigges/$(NAME)
 .DEFAULT_GOAL := help
 
 .PHONY: fmt

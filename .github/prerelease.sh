@@ -50,4 +50,4 @@ for asset in $(find dist -type f -name "${NAME}_edge*"); do
 done
 
 # Upload snaps to the edge channel
-find dist -type f -name "*.snap" -exec snapcraft upload --release edge '{}' \;
+#find dist -type f -name "*.snap" -exec snapcraft upload --release edge '{}' \;
