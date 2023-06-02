@@ -302,8 +302,20 @@ func (c *Controller) TaskHandlerGarbageCollectMetrics(ctx context.Context) error
 	return c.GarbageCollectMetrics(ctx)
 }
 
+// TaskHandlerRefreshConfig ..
+func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) {
+	cfg, err := config.ParseFile(ctx.Value("cfgString").(string))
+	if err != nil {
+		log.WithContext(ctx).
+			WithError(err).
+			Error()
+	} else {
+		c.Config = cfg
+	}
+}
+
 // Schedule ..
-func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.GarbageCollect) {
+func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.GarbageCollect, update config.ConfigUpdate) {
 	ctx, span := otel.Tracer(tracerName).Start(ctx, "controller:Schedule")
 	defer span.End()
 
@@ -316,6 +328,7 @@ func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.G
 		schemas.TaskTypeGarbageCollectEnvironments:   config.SchedulerConfig(gc.Environments),
 		schemas.TaskTypeGarbageCollectRefs:           config.SchedulerConfig(gc.Refs),
 		schemas.TaskTypeGarbageCollectMetrics:        config.SchedulerConfig(gc.Metrics),
+		schemas.TaskTypeConfigUpdate:                 config.SchedulerConfig(update.Update),
 	} {
 		if cfg.OnInit {
 			c.ScheduleTask(ctx, tt, "_")

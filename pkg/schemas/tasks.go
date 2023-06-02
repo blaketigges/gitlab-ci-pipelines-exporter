@@ -42,6 +42,9 @@ const (
 
 	// TaskTypeGarbageCollectMetrics ..
 	TaskTypeGarbageCollectMetrics TaskType = "GarbageCollectMetrics"
+
+	// TaskTypeConfigUpdate
+	TaskTypeConfigUpdate TaskType = "ConfigUpdate"
 )
 
 // Tasks can be used to keep track of tasks.
