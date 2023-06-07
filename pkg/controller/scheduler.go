@@ -313,7 +313,7 @@ func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) error {
 
 	return err
 }
-}
+
 
 // Schedule ..
 func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.GarbageCollect, update config.ConfigUpdate) {
