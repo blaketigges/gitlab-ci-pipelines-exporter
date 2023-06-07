@@ -7,13 +7,13 @@ import (
 	"os"
 	"time"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 	"github.com/go-logr/stdr"
 	log "github.com/sirupsen/logrus"
 	"github.com/uptrace/opentelemetry-go-extra/otellogrus"
 	"github.com/urfave/cli/v2"
 	"github.com/vmihailenco/taskq/v4"
 
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 	"github.com/mvisonneau/go-helpers/logger"
 )
 

@@ -7,11 +7,11 @@ import (
 	"strconv"
 	"strings"
 
-	log "github.com/sirupsen/logrus"
-	goGitlab "github.com/xanzy/go-gitlab"
-
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/openlyinc/pointy"
+	log "github.com/sirupsen/logrus"
+	goGitlab "github.com/xanzy/go-gitlab"
 )
 
 func (c *Controller) processPipelineEvent(ctx context.Context, e goGitlab.PipelineEvent) {

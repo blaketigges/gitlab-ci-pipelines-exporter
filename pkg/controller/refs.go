@@ -3,10 +3,9 @@ package controller
 import (
 	"context"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 	"github.com/imdario/mergo"
 	log "github.com/sirupsen/logrus"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 )
 
 // GetRefs ..

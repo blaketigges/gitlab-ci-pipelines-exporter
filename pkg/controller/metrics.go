@@ -5,12 +5,11 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/prometheus/client_golang/prometheus"
-	log "github.com/sirupsen/logrus"
-
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/gitlab"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
+	"github.com/prometheus/client_golang/prometheus"
+	log "github.com/sirupsen/logrus"
 )
 
 // Registry wraps a pointer of prometheus.Registry.

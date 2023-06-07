@@ -50,7 +50,7 @@ type Config struct {
 	Wildcards []Wildcard `validate:"unique,at-least-1-project-or-wildcard,dive" yaml:"wildcards"`
 }
 
-// Config refresh option
+// Config refresh option.
 type ConfigUpdate struct {
 	// Enable refresh
 	Update struct {

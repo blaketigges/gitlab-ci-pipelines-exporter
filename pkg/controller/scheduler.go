@@ -5,6 +5,10 @@ import (
 	"strconv"
 	"time"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
 	"github.com/redis/go-redis/v9"
 	log "github.com/sirupsen/logrus"
 	"github.com/vmihailenco/taskq/memqueue/v4"
@@ -12,11 +16,6 @@ import (
 	"github.com/vmihailenco/taskq/v4"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
 )
 
 // TaskController holds task related clients.
@@ -302,16 +301,18 @@ func (c *Controller) TaskHandlerGarbageCollectMetrics(ctx context.Context) error
 	return c.GarbageCollectMetrics(ctx)
 }
 
-// TaskHandlerRefreshConfig ..
-func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) {
+// TaskHandlerConfigUpdate ..
+func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) error {
+	defer c.unqueueTask(ctx, schemas.TaskTypeConfigUpdate, "_")
+	defer c.TaskController.monitorLastTaskScheduling(schemas.TaskTypeConfigUpdate)
+
 	cfg, err := config.ParseFile(ctx.Value("cfgString").(string))
-	if err != nil {
-		log.WithContext(ctx).
-			WithError(err).
-			Error()
-	} else {
+	if err == nil {
 		c.Config = cfg
 	}
+
+	return err
+}
 }
 
 // Schedule ..

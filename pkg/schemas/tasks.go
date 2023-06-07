@@ -43,7 +43,7 @@ const (
 	// TaskTypeGarbageCollectMetrics ..
 	TaskTypeGarbageCollectMetrics TaskType = "GarbageCollectMetrics"
 
-	// TaskTypeConfigUpdate
+	// TaskTypeConfigUpdate ..
 	TaskTypeConfigUpdate TaskType = "ConfigUpdate"
 )
 

@@ -3,12 +3,11 @@ package store
 import (
 	"context"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 	"github.com/redis/go-redis/v9"
 	log "github.com/sirupsen/logrus"
 	"go.opentelemetry.io/otel"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 )
 
 // Store ..

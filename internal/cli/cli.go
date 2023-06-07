@@ -5,9 +5,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/urfave/cli/v2"
-
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/internal/cmd"
+	"github.com/urfave/cli/v2"
 )
 
 // Run handles the instanciation of the CLI application.

@@ -7,9 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestWebhookHandler(t *testing.T) {

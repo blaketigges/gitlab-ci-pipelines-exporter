@@ -5,9 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestGetProject(t *testing.T) {

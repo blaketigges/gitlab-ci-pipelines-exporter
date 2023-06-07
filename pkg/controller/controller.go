@@ -3,6 +3,11 @@ package controller
 import (
 	"context"
 
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/gitlab"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	"github.com/redis/go-redis/extra/redisotel/v9"
@@ -16,12 +21,6 @@ import (
 	sdktrace "go.opentelemetry.io/otel/sdk/trace"
 	semconv "go.opentelemetry.io/otel/semconv/v1.7.0"
 	"google.golang.org/grpc"
-
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/gitlab"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
-	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
 )
 
 const tracerName = "gitlab-ci-pipelines-exporter"
