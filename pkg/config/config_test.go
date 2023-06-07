@@ -75,6 +75,9 @@ func TestNew(t *testing.T) {
 	c.ConfigUpdate.Update.Scheduled = true
 	c.ConfigUpdate.Update.IntervalSeconds = 1800
 
+	c.Server.Webhook.AddWebhooks.IntervalSeconds = 43200
+	c.Server.Webhook.AddWebhooks.Scheduled = false
+
 	assert.Equal(t, c, New())
 }
 

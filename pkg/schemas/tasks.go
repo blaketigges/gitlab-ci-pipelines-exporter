@@ -45,6 +45,9 @@ const (
 
 	// TaskTypeConfigUpdate ..
 	TaskTypeConfigUpdate TaskType = "ConfigUpdate"
+
+	// TaskTypeAddWebhooks ..
+	TaskTypeAddWebhooks TaskType = "AddWebhooks"
 )
 
 // Tasks can be used to keep track of tasks.

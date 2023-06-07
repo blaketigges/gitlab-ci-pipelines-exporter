@@ -327,3 +327,59 @@ func isEnvMatchingWilcard(w config.Wildcard, env schemas.Environment) (matches b
 	// Then we check if the ref matches the project pull parameters
 	return isEnvMatchingProjectPullEnvironments(w.Pull.Environments, env)
 }
+
+// Add a webhook to every project matching the wildcards.
+func (c *Controller) addWebhooks(ctx context.Context) error {
+	for _, w := range c.Config.Wildcards {
+		projects, err := c.Gitlab.ListProjects(ctx, w)
+		if err != nil {
+			return err
+		}
+
+		for _, p := range projects {
+			hooks, _, err := c.Gitlab.Projects.ListProjectHooks(
+				p.Name,
+				&goGitlab.ListProjectHooksOptions{},
+				goGitlab.WithContext(ctx),
+			)
+			if err != nil {
+				return err
+			}
+
+			WURL := c.Config.Server.Webhook.URL + "/webhook"
+			opts := goGitlab.AddProjectHookOptions{ // options for hook
+				PipelineEvents:   pointy.Bool(true),
+				DeploymentEvents: pointy.Bool(true),
+				JobEvents:        &c.Config.ProjectDefaults.Pull.Pipeline.Jobs.Enabled,
+				URL:              &WURL,
+				Token:            &c.Config.Server.Webhook.SecretToken,
+			}
+
+			if len(hooks) == 0 { // if no hooks
+				_, _, err := c.Gitlab.Projects.AddProjectHook( // add hook
+					p.Name,
+					&opts,
+					goGitlab.WithContext(ctx))
+				if err != nil {
+					return err
+				}
+			} else {
+				for _, h := range hooks {
+					if h.URL == WURL { // if hook already exists stop
+						break
+					} else {
+						_, _, err := c.Gitlab.Projects.AddProjectHook( // else add hook
+							p.Name,
+							&opts,
+							goGitlab.WithContext(ctx))
+						if err != nil {
+							return err
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return nil
+}

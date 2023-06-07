@@ -314,9 +314,16 @@ func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) error {
 	return err
 }
 
+// TaskHandlerAddWebhooks ..
+func (c *Controller) TaskHandlerAddWebhooks(ctx context.Context) error {
+	defer c.unqueueTask(ctx, schemas.TaskTypeAddWebhooks, "_")
+	defer c.TaskController.monitorLastTaskScheduling(schemas.TaskTypeAddWebhooks)
+
+	return c.addWebhooks(ctx)
+}
 
 // Schedule ..
-func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.GarbageCollect, update config.ConfigUpdate) {
+func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.GarbageCollect, update config.ConfigUpdate, wh config.ServerWebhook) {
 	ctx, span := otel.Tracer(tracerName).Start(ctx, "controller:Schedule")
 	defer span.End()
 
@@ -330,6 +337,7 @@ func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.G
 		schemas.TaskTypeGarbageCollectRefs:           config.SchedulerConfig(gc.Refs),
 		schemas.TaskTypeGarbageCollectMetrics:        config.SchedulerConfig(gc.Metrics),
 		schemas.TaskTypeConfigUpdate:                 config.SchedulerConfig(update.Update),
+		schemas.TaskTypeAddWebhooks:                  config.SchedulerConfig(wh.AddWebhooks),
 	} {
 		if cfg.OnInit {
 			c.ScheduleTask(ctx, tt, "_")
