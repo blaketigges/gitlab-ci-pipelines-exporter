@@ -10,7 +10,7 @@
 
 ```bash
 # Clone this repository
-~$ git clone https://github.com/mvisonneau/gitlab-ci-pipelines-exporter.git
+~$ git clone https://github.com/blaketigges/gitlab-ci-pipelines-exporter.git
 ~$ cd gitlab-ci-pipelines-exporter/examples/quickstart
 
 # Provide your personal GitLab API access token (needs read_api permissions)

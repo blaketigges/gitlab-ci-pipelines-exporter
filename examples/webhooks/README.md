@@ -17,7 +17,7 @@ This is a more advanced setup for users looking to reduce the amount of requests
 
 ```bash
 # Clone this repository
-~$ git clone https://github.com/mvisonneau/gitlab-ci-pipelines-exporter.git
+~$ git clone https://github.com/blaketigges/gitlab-ci-pipelines-exporter.git
 ~$ cd gitlab-ci-pipelines-exporter/examples/webhooks
 
 # Provide your personal GitLab API access token (needs read_api permissions)

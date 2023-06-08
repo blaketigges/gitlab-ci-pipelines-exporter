@@ -39,7 +39,7 @@ jobs:
         run: make test
 
       - name: Publish coverage to coveralls.io
-        uses: shogo82148/actions-goveralls@v1
+        uses: shogo82148/actions-goveralls@v1.7.0
         if: ${{ matrix.os == 'ubuntu-22.04' }}
         with:
           path-to-profile: coverage.out

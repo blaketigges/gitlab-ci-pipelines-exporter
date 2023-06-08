@@ -15,7 +15,7 @@ The [docker-compose.yml](./docker-compose.yml) is configured to spinup the neces
 
 ```bash
 # Clone this repository
-~$ git clone https://github.com/mvisonneau/gitlab-ci-pipelines-exporter.git
+~$ git clone https://github.com/blaketigges/gitlab-ci-pipelines-exporter.git
 ~$ cd gitlab-ci-pipelines-exporter/examples/ha-setup
 
 # Provide your personal GitLab API access token (needs read_api permissions)
