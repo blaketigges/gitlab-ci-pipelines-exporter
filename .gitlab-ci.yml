@@ -11,7 +11,7 @@ image: golang:latest
 
 stages:
   - test
-  - release
+  - build
 
 lint:
   stage: test
@@ -35,7 +35,7 @@ test:
       junit: report.xml
 
 release:
-  stage: release
+  stage: build
   image:
     name: goreleaser/goreleaser
     entrypoint: ['']
