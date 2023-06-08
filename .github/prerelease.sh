@@ -49,4 +49,5 @@ for asset in $(find dist -type f -name "${NAME}_edge*"); do
         "https://uploads.github.com/repos/${REPOSITORY}/releases/${RELEASE_ID}/assets?name=$(basename $asset)"
 done
 
-
+# Upload snaps to the edge channel
+#find dist -type f -name "*.snap" -exec snapcraft upload --release edge '{}' \;

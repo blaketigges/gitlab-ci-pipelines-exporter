@@ -9,16 +9,14 @@ import (
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/monitor"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
-	"github.com/go-redis/redis/v8"
+	"github.com/redis/go-redis/v9"
 	log "github.com/sirupsen/logrus"
-	"github.com/vmihailenco/taskq/v3"
-	"github.com/vmihailenco/taskq/v3/memqueue"
-	"github.com/vmihailenco/taskq/v3/redisq"
+	"github.com/vmihailenco/taskq/memqueue/v4"
+	"github.com/vmihailenco/taskq/redisq/v4"
+	"github.com/vmihailenco/taskq/v4"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
 )
-
-const bufferSize = 1000
 
 // TaskController holds task related clients.
 type TaskController struct {
@@ -29,24 +27,17 @@ type TaskController struct {
 }
 
 // NewTaskController initializes and returns a new TaskController object.
-func NewTaskController(ctx context.Context, r *redis.Client) (t TaskController) {
+func NewTaskController(ctx context.Context, r *redis.Client, maximumJobsQueueSize int) (t TaskController) {
 	ctx, span := otel.Tracer(tracerName).Start(ctx, "controller:NewTaskController")
 	defer span.End()
 
 	t.TaskMap = &taskq.TaskMap{}
 
-	queueOptions := &taskq.QueueOptions{
+	queueOptions := &taskq.QueueConfig{
 		Name:                 "default",
 		PauseErrorsThreshold: 3,
 		Handler:              t.TaskMap,
-		BufferSize:           bufferSize,
-
-		// Disable system resources checks
-		MinSystemResources: taskq.SystemResources{
-			Load1PerCPU:          -1,
-			MemoryFreeMB:         0,
-			MemoryFreePercentage: 0,
-		},
+		BufferSize:           maximumJobsQueueSize,
 	}
 
 	if r != nil {
@@ -60,7 +51,7 @@ func NewTaskController(ctx context.Context, r *redis.Client) (t TaskController) 
 
 	// Purge the queue when we start
 	// I am only partially convinced this will not cause issues in HA fashion
-	if err := t.Queue.Purge(); err != nil {
+	if err := t.Queue.Purge(ctx); err != nil {
 		log.WithContext(ctx).
 			WithError(err).
 			Error("purging the pulling queue")
@@ -310,8 +301,29 @@ func (c *Controller) TaskHandlerGarbageCollectMetrics(ctx context.Context) error
 	return c.GarbageCollectMetrics(ctx)
 }
 
+// TaskHandlerConfigUpdate ..
+func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) error {
+	defer c.unqueueTask(ctx, schemas.TaskTypeConfigUpdate, "_")
+	defer c.TaskController.monitorLastTaskScheduling(schemas.TaskTypeConfigUpdate)
+
+	cfg, err := config.ParseFile(ctx.Value("cfgString").(string))
+	if err == nil {
+		c.Config = cfg
+	}
+
+	return err
+}
+
+// TaskHandlerAddWebhooks ..
+func (c *Controller) TaskHandlerAddWebhooks(ctx context.Context) error {
+	defer c.unqueueTask(ctx, schemas.TaskTypeAddWebhooks, "_")
+	defer c.TaskController.monitorLastTaskScheduling(schemas.TaskTypeAddWebhooks)
+
+	return c.addWebhooks(ctx)
+}
+
 // Schedule ..
-func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.GarbageCollect) {
+func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.GarbageCollect, update config.ConfigUpdate, wh config.ServerWebhook) {
 	ctx, span := otel.Tracer(tracerName).Start(ctx, "controller:Schedule")
 	defer span.End()
 
@@ -324,6 +336,8 @@ func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.G
 		schemas.TaskTypeGarbageCollectEnvironments:   config.SchedulerConfig(gc.Environments),
 		schemas.TaskTypeGarbageCollectRefs:           config.SchedulerConfig(gc.Refs),
 		schemas.TaskTypeGarbageCollectMetrics:        config.SchedulerConfig(gc.Metrics),
+		schemas.TaskTypeConfigUpdate:                 config.SchedulerConfig(update.Update),
+		schemas.TaskTypeAddWebhooks:                  config.SchedulerConfig(wh.AddWebhooks),
 	} {
 		if cfg.OnInit {
 			c.ScheduleTask(ctx, tt, "_")
@@ -379,9 +393,9 @@ func (c *Controller) ScheduleTask(ctx context.Context, tt schemas.TaskType, uniq
 		"task_unique_id": uniqueID,
 	}
 	task := c.TaskController.TaskMap.Get(string(tt))
-	msg := task.WithArgs(ctx, args...)
+	msg := task.NewJob(args...)
 
-	qlen, err := c.TaskController.Queue.Len()
+	qlen, err := c.TaskController.Queue.Len(ctx)
 	if err != nil {
 		log.WithContext(ctx).
 			WithFields(logFields).
@@ -414,8 +428,8 @@ func (c *Controller) ScheduleTask(ctx context.Context, tt schemas.TaskType, uniq
 		return
 	}
 
-	go func(msg *taskq.Message) {
-		if err := c.TaskController.Queue.Add(msg); err != nil {
+	go func(job *taskq.Job) {
+		if err := c.TaskController.Queue.AddJob(ctx, job); err != nil {
 			log.WithContext(ctx).
 				WithError(err).
 				Warn("scheduling task")

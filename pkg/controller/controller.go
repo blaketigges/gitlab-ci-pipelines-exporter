@@ -8,12 +8,12 @@ import (
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/ratelimit"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/store"
-	"github.com/go-redis/redis/extra/redisotel/v8"
-	"github.com/go-redis/redis/v8"
 	"github.com/google/uuid"
 	"github.com/pkg/errors"
+	"github.com/redis/go-redis/extra/redisotel/v9"
+	"github.com/redis/go-redis/v9"
 	log "github.com/sirupsen/logrus"
-	"github.com/vmihailenco/taskq/v3"
+	"github.com/vmihailenco/taskq/v4"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace"
 	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
@@ -51,7 +51,7 @@ func New(ctx context.Context, cfg config.Config, version string) (c Controller, 
 		return
 	}
 
-	c.TaskController = NewTaskController(ctx, c.Redis)
+	c.TaskController = NewTaskController(ctx, c.Redis, cfg.Gitlab.MaximumJobsQueueSize)
 	c.registerTasks()
 
 	c.Store = store.New(ctx, c.Redis, c.Config.Projects)
@@ -61,7 +61,7 @@ func New(ctx context.Context, cfg config.Config, version string) (c Controller, 
 	}
 
 	// Start the scheduler
-	c.Schedule(ctx, cfg.Pull, cfg.GarbageCollect)
+	c.Schedule(ctx, cfg.Pull, cfg.GarbageCollect, cfg.ConfigUpdate, cfg.Server.Webhook)
 
 	return
 }
@@ -81,9 +81,10 @@ func (c *Controller) registerTasks() {
 		schemas.TaskTypePullRefMetrics:               c.TaskHandlerPullRefMetrics,
 		schemas.TaskTypePullRefsFromProject:          c.TaskHandlerPullRefsFromProject,
 		schemas.TaskTypePullRefsFromProjects:         c.TaskHandlerPullRefsFromProjects,
+		schemas.TaskTypeConfigUpdate:                 c.TaskHandlerConfigUpdate,
+		schemas.TaskTypeAddWebhooks:                  c.TaskHandlerAddWebhooks,
 	} {
-		_, _ = c.TaskController.TaskMap.Register(&taskq.TaskOptions{
-			Name:       string(n),
+		_, _ = c.TaskController.TaskMap.Register(string(n), &taskq.TaskConfig{
 			Handler:    h,
 			RetryLimit: 1,
 		})
@@ -154,7 +155,7 @@ func (c *Controller) configureGitlab(cfg config.Gitlab, version string) (err err
 	if c.Redis != nil {
 		rl = ratelimit.NewRedisLimiter(c.Redis, cfg.MaximumRequestsPerSecond)
 	} else {
-		rl = ratelimit.NewLocalLimiter(cfg.MaximumRequestsPerSecond, cfg.TimeWindow)
+		rl = ratelimit.NewLocalLimiter(cfg.MaximumRequestsPerSecond, cfg.BurstableRequestsPerSecond)
 	}
 
 	c.Gitlab, err = gitlab.NewClient(gitlab.ClientConfig{
@@ -189,7 +190,9 @@ func (c *Controller) configureRedis(ctx context.Context, url string) (err error)
 
 	c.Redis = redis.NewClient(opt)
 
-	c.Redis.AddHook(redisotel.NewTracingHook())
+	if err = redisotel.InstrumentTracing(c.Redis); err != nil {
+		return
+	}
 
 	if _, err := c.Redis.Ping(ctx).Result(); err != nil {
 		return errors.Wrap(err, "connecting to redis")

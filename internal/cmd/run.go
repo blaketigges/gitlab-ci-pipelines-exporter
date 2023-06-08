@@ -25,6 +25,8 @@ func Run(cliCtx *cli.Context) (int, error) {
 	ctx, ctxCancel := context.WithCancel(context.Background())
 	defer ctxCancel()
 
+	ctx = context.WithValue(ctx, "cfgString", cliCtx.String("config"))
+
 	c, err := controller.New(ctx, cfg, cliCtx.App.Version)
 	if err != nil {
 		return 1, err

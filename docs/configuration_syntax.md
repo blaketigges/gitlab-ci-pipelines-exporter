@@ -50,6 +50,20 @@ server:
     # environment variable)
     secret_token: 063f51ec-09a4-11eb-adc1-0242ac120002
 
+    add_webhooks: 
+      # Whether to add webhooks to projects from wildcards when
+      # exporter starts (optional, default: false)
+      on_init: false
+      # Whether to add webhooks to projects from wildcards
+      # on a regular basis (optional, default: false)
+      scheduled: false
+      # Interval in seconds to add webhooks to projects 
+      # from wildcards (optional, default: 43200)
+      interval_seconds: 43200
+
+    # GCPE Webhook endpoint URL 
+    webhook_url: https://gcpe.example.net/webhook
+
 # Redis configuration, optional and solely useful for an HA setup.
 # By default the data is held in memory of the exporter
 redis:
@@ -86,13 +100,38 @@ gitlab:
   # GitLab instance (handy when self-hosting) (optional, default: true)
   enable_tls_verify: true
 
-  # Rate limit for the GitLab API requests/sec
+  # Maximum limit for the GitLab API requests/sec
   # (optional, default: 1)
   maximum_requests_per_second: 1
 
-  # Time window for the rate limit, in seconds.
-  # (optional, default: 1)
-  time_window: 1
+  # Rate limit for the GitLab API requests/sec
+  # (optional, default: 5)
+  burstable_requests_per_second: 5
+
+  # Maximum amount of jobs to keep queue, if this limit is reached
+  # newly created ones will get dropped. As a best practice you should not change this value.
+  # Workarounds to avoid hitting the limit are:
+  # - increase polling intervals
+  # - increase API rate limit
+  # - reduce the amount of projects, refs, environments or metrics you are looking into
+  # - leverage webhooks instead of polling schedules
+  #
+  # (optional, default: 1000)
+  maximum_jobs_queue_size: 1000
+
+config_update:
+  update_config:
+    # Whether to update config when
+    # exporter starts (optional, default: false)
+    on_init: false
+
+    # Whether to attempt updating the config
+    # on a regular basis (optional, default: true)
+    scheduled: true
+
+    # Interval in seconds to update config
+    # (optional, default: 1800)
+    interval_seconds: 1800
 
 pull:
   projects_from_wildcards:
@@ -232,8 +271,8 @@ project_defaults:
         enabled: true
 
         # Filter for branches to include
-        # (optional, default: "^main|master$" -- main/master branches)
-        regexp: "^main|master$"
+        # (optional, default: "^(?:main|master)$" -- main/master branches)
+        regexp: "^(?:main|master)$"
         
         # Only keep most 'n' recently updated branches
         # (optional, default: 0 -- disabled/keep every branch matching the regexp)"
@@ -310,6 +349,10 @@ project_defaults:
         # Filter pipelines variables to include
         # (optional, default: ".*", all variables)
         regexp: ".*"
+      
+      test_reports:
+        # Fetch test reports in a separate metric (optiona, default: false)
+        enabled: false
 
 # The list of the projects you want to monitor (optional)
 projects:
@@ -339,8 +382,8 @@ projects:
           enabled: true
 
           # Filter for branches to include
-          # (optional, default: "^main|master$" -- main/master branches)
-          regexp: "^main|master$"
+          # (optional, default: "^(?:main|master)$" -- main/master branches)
+          regexp: "^(?:main|master)$"
           
           # Only keep most 'n' recently updated branches
           # (optional, default: 0 -- disabled/keep every branch matching the regexp)"
@@ -417,6 +460,10 @@ projects:
           # Filter pipelines variables to include
           # (optional, default: ".*", all variables)
           regexp: ".*"
+          
+        test_reports:
+          # Fetch test reports in a separate metric (optiona, default: false)
+          enabled: false
 
 # Dynamically fetch projects to monitor using a wildcard (optional)
 wildcards:
@@ -462,8 +509,8 @@ wildcards:
           enabled: true
 
           # Filter for branches to include
-          # (optional, default: "^main|master$" -- main/master branches)
-          regexp: "^main|master$"
+          # (optional, default: "^(?:main|master)$" -- main/master branches)
+          regexp: "^(?:main|master)$"
           
           # Only keep most 'n' recently updated branches
           # (optional, default: 0 -- disabled/keep every branch matching the regexp)"
@@ -540,6 +587,10 @@ wildcards:
           # Filter pipelines variables to include
           # (optional, default: ".*", all variables)
           regexp: ".*"
+          
+        test_reports:
+          # Fetch test reports in a separate metric (optiona, default: false)
+          enabled: false
 ```
 
 ## Pull all projects accessible by the provided token

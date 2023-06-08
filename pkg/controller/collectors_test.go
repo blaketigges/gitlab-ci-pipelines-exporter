@@ -8,7 +8,7 @@ import (
 )
 
 func TestNewCollectorFunctions(t *testing.T) {
-	for _, f := range [](func() prometheus.Collector){
+	for _, f := range []func() prometheus.Collector{
 		NewInternalCollectorCurrentlyQueuedTasksCount,
 		NewInternalCollectorEnvironmentsCount,
 		NewInternalCollectorExecutedTasksCount,
@@ -32,16 +32,18 @@ func TestNewCollectorFunctions(t *testing.T) {
 		NewCollectorJobQueuedDurationSeconds,
 		NewCollectorJobStatus,
 		NewCollectorJobTimestamp,
+		NewCollectorJobStartTime,
 		NewCollectorQueuedDurationSeconds,
 		NewCollectorStatus,
 		NewCollectorTimestamp,
+		NewCollectorStartTime,
 	} {
 		c := f()
 		assert.NotNil(t, c)
 		assert.IsType(t, &prometheus.GaugeVec{}, c)
 	}
 
-	for _, f := range [](func() prometheus.Collector){
+	for _, f := range []func() prometheus.Collector{
 		NewCollectorJobRunCount,
 		NewCollectorRunCount,
 		NewCollectorEnvironmentDeploymentCount,

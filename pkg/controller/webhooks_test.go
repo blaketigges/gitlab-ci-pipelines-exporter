@@ -5,9 +5,10 @@ import (
 
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
+	"github.com/stretchr/testify/assert"
 )
 
-func TestTriggerRefMetricsPull(_ *testing.T) {
+func TestTriggerRefMetricsPull(t *testing.T) {
 	ctx, c, _, srv := newTestController(config.Config{})
 	srv.Close()
 
@@ -22,15 +23,15 @@ func TestTriggerRefMetricsPull(_ *testing.T) {
 		Name:    "main",
 	}
 
-	c.Store.SetRef(ctx, ref1)
-	c.Store.SetProject(ctx, p2)
+	assert.NoError(t, c.Store.SetRef(ctx, ref1))
+	assert.NoError(t, c.Store.SetProject(ctx, p2))
 
 	// TODO: Assert results somehow
 	c.triggerRefMetricsPull(ctx, ref1)
 	c.triggerRefMetricsPull(ctx, ref2)
 }
 
-func TestTriggerEnvironmentMetricsPull(_ *testing.T) {
+func TestTriggerEnvironmentMetricsPull(t *testing.T) {
 	ctx, c, _, srv := newTestController(config.Config{})
 	srv.Close()
 
@@ -45,9 +46,9 @@ func TestTriggerEnvironmentMetricsPull(_ *testing.T) {
 		Name:        "prod",
 	}
 
-	c.Store.SetProject(ctx, p1)
-	c.Store.SetEnvironment(ctx, env1)
-	c.Store.SetEnvironment(ctx, env2)
+	assert.NoError(t, c.Store.SetProject(ctx, p1))
+	assert.NoError(t, c.Store.SetEnvironment(ctx, env1))
+	assert.NoError(t, c.Store.SetEnvironment(ctx, env2))
 
 	// TODO: Assert results somehow
 	c.triggerEnvironmentMetricsPull(ctx, env1)

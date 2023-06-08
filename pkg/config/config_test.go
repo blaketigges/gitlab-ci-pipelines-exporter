@@ -23,7 +23,8 @@ func TestNew(t *testing.T) {
 	c.Gitlab.EnableHealthCheck = true
 	c.Gitlab.EnableTLSVerify = true
 	c.Gitlab.MaximumRequestsPerSecond = 1
-	c.Gitlab.TimeWindow = 1
+	c.Gitlab.BurstableRequestsPerSecond = 5
+	c.Gitlab.MaximumJobsQueueSize = 1000
 
 	c.Pull.ProjectsFromWildcards.OnInit = true
 	c.Pull.ProjectsFromWildcards.Scheduled = true
@@ -59,7 +60,7 @@ func TestNew(t *testing.T) {
 	c.ProjectDefaults.Pull.Environments.ExcludeStopped = true
 
 	c.ProjectDefaults.Pull.Refs.Branches.Enabled = true
-	c.ProjectDefaults.Pull.Refs.Branches.Regexp = `^main|master$`
+	c.ProjectDefaults.Pull.Refs.Branches.Regexp = `^(?:main|master)$`
 	c.ProjectDefaults.Pull.Refs.Branches.ExcludeDeleted = true
 
 	c.ProjectDefaults.Pull.Refs.Tags.Enabled = true
@@ -70,6 +71,12 @@ func TestNew(t *testing.T) {
 	c.ProjectDefaults.Pull.Pipeline.Jobs.RunnerDescription.Enabled = true
 	c.ProjectDefaults.Pull.Pipeline.Jobs.RunnerDescription.AggregationRegexp = `shared-runners-manager-(\d*)\.gitlab\.com`
 	c.ProjectDefaults.Pull.Pipeline.Variables.Regexp = `.*`
+
+	c.ConfigUpdate.Update.Scheduled = true
+	c.ConfigUpdate.Update.IntervalSeconds = 1800
+
+	c.Server.Webhook.AddWebhooks.IntervalSeconds = 43200
+	c.Server.Webhook.AddWebhooks.Scheduled = false
 
 	assert.Equal(t, c, New())
 }

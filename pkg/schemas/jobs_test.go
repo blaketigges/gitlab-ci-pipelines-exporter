@@ -50,6 +50,7 @@ func TestNewJob(t *testing.T) {
 		Name:                  "foo",
 		Stage:                 "🚀",
 		Timestamp:             1.601557505e+09,
+		StartTime:             1.601557535e+09,
 		DurationSeconds:       15,
 		QueuedDurationSeconds: 10,
 		Status:                "failed",

@@ -40,11 +40,24 @@ type Config struct {
 	// Default parameters which can be overridden at either the Project or Wildcard level
 	ProjectDefaults ProjectParameters `yaml:"project_defaults" validate:"dive"`
 
+	// Config refresh
+	ConfigUpdate ConfigUpdate `yaml:"config_update" validate:"dive"`
+
 	// List of projects to pull
 	Projects []Project `validate:"unique,at-least-1-project-or-wildcard,dive" yaml:"projects"`
 
 	// List of wildcards to search projects from
 	Wildcards []Wildcard `validate:"unique,at-least-1-project-or-wildcard,dive" yaml:"wildcards"`
+}
+
+// Config refresh option.
+type ConfigUpdate struct {
+	// Enable refresh
+	Update struct {
+		OnInit          bool `default:"false" yaml:"on_init"`
+		Scheduled       bool `default:"true" yaml:"scheduled"`
+		IntervalSeconds int  `default:"1800" validate:"gte=1" yaml:"interval_seconds"`
+	} `yaml:"update_config"`
 }
 
 // Log holds runtime logging configuration.
@@ -90,6 +103,16 @@ type ServerWebhook struct {
 
 	// Secret token to authenticate legitimate webhook requests coming from the GitLab server
 	SecretToken string `validate:"required_if=Enabled true" yaml:"secret_token"`
+
+	// Schedule the addition of webhooks to all seleceted projects
+	AddWebhooks struct {
+		OnInit          bool `default:"false" yaml:"on_init"`
+		Scheduled       bool `default:"false" yaml:"scheduled"`
+		IntervalSeconds int  `default:"43200" validate:"gte=1" yaml:"interval_seconds"`
+	} `yaml:"add_webhooks"`
+
+	// Webhook URL
+	URL string `validate:"required_if=AddWebhooks.Scheduled true" yaml:"webhook_url"`
 }
 
 // Gitlab ..
@@ -109,11 +132,21 @@ type Gitlab struct {
 	// Whether to skip TLS validation when querying HealthURL
 	EnableTLSVerify bool `default:"true" yaml:"enable_tls_verify"`
 
-	// Rate limit for the GitLab API requests/sec
+	// Maximum limit for the GitLab API requests/sec
 	MaximumRequestsPerSecond int `default:"1" validate:"gte=1" yaml:"maximum_requests_per_second"`
 
-	// Changes the time window of the rate limiter, in seconds
-	TimeWindow int `default:"1" validate:"gte=1" yaml:"time_window"`
+	// Burstable limit for the GitLab API requests/sec
+	BurstableRequestsPerSecond int `default:"5" validate:"gte=1" yaml:"burstable_requests_per_second"`
+
+	// Maximum amount of jobs to keep queue, if this limit is reached
+	// newly created ones will get dropped. As a best practice you should not change this value.
+	// Workarounds to avoid hitting the limit are:
+	// - increase polling intervals
+	// - increase API rate limit
+	// - reduce the amount of projects, refs, environments or metrics you are looking into
+	// - leverage webhooks instead of polling schedules
+	//
+	MaximumJobsQueueSize int `default:"1000" validate:"gte=10" yaml:"maximum_jobs_queue_size"`
 }
 
 // Redis ..
@@ -196,6 +229,7 @@ func (c *Config) UnmarshalYAML(v *yaml.Node) (err error) {
 		Pull            Pull              `yaml:"pull"`
 		GarbageCollect  GarbageCollect    `yaml:"garbage_collect"`
 		ProjectDefaults ProjectParameters `yaml:"project_defaults"`
+		ConfigUpdate    ConfigUpdate      `yaml:"config_update"`
 
 		Projects  []yaml.Node `yaml:"projects"`
 		Wildcards []yaml.Node `yaml:"wildcards"`
@@ -216,6 +250,7 @@ func (c *Config) UnmarshalYAML(v *yaml.Node) (err error) {
 	c.Pull = _cfg.Pull
 	c.GarbageCollect = _cfg.GarbageCollect
 	c.ProjectDefaults = _cfg.ProjectDefaults
+	c.ConfigUpdate = _cfg.ConfigUpdate
 
 	for _, n := range _cfg.Projects {
 		p := c.NewProject()

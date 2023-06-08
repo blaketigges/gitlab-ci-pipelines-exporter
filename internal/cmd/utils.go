@@ -8,10 +8,11 @@ import (
 	"time"
 
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
+	"github.com/go-logr/stdr"
 	log "github.com/sirupsen/logrus"
 	"github.com/uptrace/opentelemetry-go-extra/otellogrus"
 	"github.com/urfave/cli/v2"
-	"github.com/vmihailenco/taskq/v3"
+	"github.com/vmihailenco/taskq/v4"
 
 	"github.com/mvisonneau/go-helpers/logger"
 )
@@ -55,7 +56,7 @@ func configure(ctx *cli.Context) (cfg config.Config, err error) {
 	)))
 
 	// This hack is to embed taskq logs with logrus
-	taskq.SetLogger(stdlibLog.New(log.StandardLogger().WriterLevel(log.WarnLevel), "taskq", 0))
+	taskq.SetLogger(stdr.New(stdlibLog.New(log.StandardLogger().WriterLevel(log.WarnLevel), "taskq", 0)))
 
 	log.WithFields(
 		log.Fields{
@@ -68,6 +69,9 @@ func configure(ctx *cli.Context) (cfg config.Config, err error) {
 	log.WithFields(config.SchedulerConfig(cfg.Pull.EnvironmentsFromProjects).Log()).Info("pull environments from projects")
 	log.WithFields(config.SchedulerConfig(cfg.Pull.RefsFromProjects).Log()).Info("pull refs from projects")
 	log.WithFields(config.SchedulerConfig(cfg.Pull.Metrics).Log()).Info("pull metrics")
+
+	log.WithFields(config.SchedulerConfig(cfg.ConfigUpdate.Update).Log()).Info("config update")
+	log.WithFields(config.SchedulerConfig(cfg.Server.Webhook.AddWebhooks).Log()).Info("add webhooks")
 
 	log.WithFields(config.SchedulerConfig(cfg.GarbageCollect.Projects).Log()).Info("garbage collect projects")
 	log.WithFields(config.SchedulerConfig(cfg.GarbageCollect.Environments).Log()).Info("garbage collect environments")

@@ -57,10 +57,24 @@ func NewRegistry(ctx context.Context) *Registry {
 			schemas.MetricKindJobRunCount:                          NewCollectorJobRunCount(),
 			schemas.MetricKindJobStatus:                            NewCollectorJobStatus(),
 			schemas.MetricKindJobTimestamp:                         NewCollectorJobTimestamp(),
+			schemas.MetricKindJobStartTime:                         NewCollectorJobStartTime(),
 			schemas.MetricKindQueuedDurationSeconds:                NewCollectorQueuedDurationSeconds(),
 			schemas.MetricKindRunCount:                             NewCollectorRunCount(),
 			schemas.MetricKindStatus:                               NewCollectorStatus(),
 			schemas.MetricKindTimestamp:                            NewCollectorTimestamp(),
+			schemas.MetricKindStartTime:                            NewCollectorStartTime(),
+			schemas.MetricKindTestReportTotalTime:                  NewCollectorTestReportTotalTime(),
+			schemas.MetricKindTestReportTotalCount:                 NewCollectorTestReportTotalCount(),
+			schemas.MetricKindTestReportSuccessCount:               NewCollectorTestReportSuccessCount(),
+			schemas.MetricKindTestReportFailedCount:                NewCollectorTestReportFailedCount(),
+			schemas.MetricKindTestReportSkippedCount:               NewCollectorTestReportSkippedCount(),
+			schemas.MetricKindTestReportErrorCount:                 NewCollectorTestReportErrorCount(),
+			schemas.MetricKindTestSuiteTotalTime:                   NewCollectorTestSuiteTotalTime(),
+			schemas.MetricKindTestSuiteTotalCount:                  NewCollectorTestSuiteTotalCount(),
+			schemas.MetricKindTestSuiteSuccessCount:                NewCollectorTestSuiteSuccessCount(),
+			schemas.MetricKindTestSuiteFailedCount:                 NewCollectorTestSuiteFailedCount(),
+			schemas.MetricKindTestSuiteSkippedCount:                NewCollectorTestSuiteSkippedCount(),
+			schemas.MetricKindTestSuiteErrorCount:                  NewCollectorTestSuiteErrorCount(),
 		},
 	}
 
@@ -145,7 +159,7 @@ func (r *Registry) ExportInternalMetrics(
 	r.InternalCollectors.CurrentlyQueuedTasksCount.(*prometheus.GaugeVec).With(prometheus.Labels{}).Set(float64(currentlyQueuedTasks))
 	r.InternalCollectors.EnvironmentsCount.(*prometheus.GaugeVec).With(prometheus.Labels{}).Set(float64(environmentsCount))
 	r.InternalCollectors.ExecutedTasksCount.(*prometheus.GaugeVec).With(prometheus.Labels{}).Set(float64(executedTasksCount))
-	r.InternalCollectors.GitLabAPIRequestsCount.(*prometheus.GaugeVec).With(prometheus.Labels{}).Set(float64(g.RequestsCounter))
+	r.InternalCollectors.GitLabAPIRequestsCount.(*prometheus.GaugeVec).With(prometheus.Labels{}).Set(float64(g.RequestsCounter.Load()))
 	r.InternalCollectors.GitlabAPIRequestsRemaining.(*prometheus.GaugeVec).With(prometheus.Labels{}).Set(float64(g.RequestsRemaining))
 	r.InternalCollectors.GitlabAPIRequestsLimit.(*prometheus.GaugeVec).With(prometheus.Labels{}).Set(float64(g.RequestsLimit))
 	r.InternalCollectors.MetricsCount.(*prometheus.GaugeVec).With(prometheus.Labels{}).Set(float64(metricsCount))

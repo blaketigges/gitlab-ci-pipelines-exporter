@@ -25,6 +25,7 @@ universal_binaries:
 
 archives:
   - name_template: '{{ .ProjectName }}_edge_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    rlcp: true
     format_overrides:
       - goos: windows
         format: zip
@@ -68,7 +69,7 @@ release:
 
 dockers:
   - image_templates:
-      - 'docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest-amd64'
+      - 'docker.io/btigges/gitlab-ci-pipelines-exporter:latest-amd64'
       - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-amd64'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: amd64
@@ -85,7 +86,7 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest-arm64'
+      - 'docker.io/btigges/gitlab-ci-pipelines-exporter:latest-arm64'
       - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-arm64'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: arm64
@@ -102,7 +103,7 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv6'
+      - 'docker.io/btigges/gitlab-ci-pipelines-exporter:latest-armv6'
       - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv6'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: arm
@@ -120,7 +121,7 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
   - image_templates:
-      - 'docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv7'
+      - 'docker.io/btigges/gitlab-ci-pipelines-exporter:latest-armv7'
       - 'ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv7'
     ids: [gitlab-ci-pipelines-exporter]
     goarch: arm
@@ -138,12 +139,12 @@ dockers:
       - --label=org.opencontainers.image.licenses=Apache-2.0
 
 docker_manifests:
-  - name_template: docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest
+  - name_template: docker.io/btigges/gitlab-ci-pipelines-exporter:latest
     image_templates:
-      - docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest-amd64
-      - docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest-arm64
-      - docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv6
-      - docker.io/blaketigges/gitlab-ci-pipelines-exporter:latest-armv7
+      - docker.io/btigges/gitlab-ci-pipelines-exporter:latest-amd64
+      - docker.io/btigges/gitlab-ci-pipelines-exporter:latest-arm64
+      - docker.io/btigges/gitlab-ci-pipelines-exporter:latest-armv6
+      - docker.io/btigges/gitlab-ci-pipelines-exporter:latest-armv7
 
   - name_template: ghcr.io/blaketigges/gitlab-ci-pipelines-exporter:latest
     image_templates:

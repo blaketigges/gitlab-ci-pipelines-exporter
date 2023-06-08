@@ -5,7 +5,7 @@ import (
 
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/config"
 	"github.com/blaketigges/gitlab-ci-pipelines-exporter/pkg/schemas"
-	"github.com/go-redis/redis/v8"
+	"github.com/redis/go-redis/v9"
 	log "github.com/sirupsen/logrus"
 	"go.opentelemetry.io/otel"
 )
