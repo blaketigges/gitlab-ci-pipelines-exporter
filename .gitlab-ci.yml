@@ -11,24 +11,31 @@ image: golang:latest
 
 stages:
   - test
-  - build
-  - deploy
+  - release
 
-format:
+lint:
+  stage: test
+  script:
+    - make lint
+
+build:
+  stage: test
+  script:
+    - make build
+    
+test:
   stage: test
   script:
     - make test
 
-compile:
-  stage: build
+release:
+  stage: release
+  image:
+    name: goreleaser/goreleaser
+    entrypoint: ['']
+  only:
+    - tags
+  variables:
+    GIT_DEPTH: 0
   script:
-    - mkdir -p mybinaries
-    - go build -o mybinaries ./cmd/gitlab-ci-pipelines-exporter
-  artifacts:
-    paths:
-      - mybinaries
-
-deploy:
-  stage: deploy
-  script: echo "Define your deployment script!"
-  environment: production
+    - goreleaser release --clean
