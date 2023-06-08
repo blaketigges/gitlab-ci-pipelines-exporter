@@ -336,6 +336,13 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 			return err
 		}
 
+		if len(projects) == 0 { // if no wildcards read config.projects
+			for _, p := range c.Config.Projects {
+				sp := schemas.Project{Project: p}
+				projects = append(projects, sp)
+			}
+		}
+
 		for _, p := range projects {
 			hooks, _, err := c.Gitlab.Projects.ListProjectHooks(
 				p.Name,
@@ -346,13 +353,14 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 				return err
 			}
 
-			WURL := c.Config.Server.Webhook.URL + "/webhook"
+			WURL := c.Config.Server.Webhook.URL
 			opts := goGitlab.AddProjectHookOptions{ // options for hook
-				PipelineEvents:   pointy.Bool(true),
-				DeploymentEvents: pointy.Bool(true),
-				JobEvents:        &c.Config.ProjectDefaults.Pull.Pipeline.Jobs.Enabled,
-				URL:              &WURL,
-				Token:            &c.Config.Server.Webhook.SecretToken,
+				PushEvents:            pointy.Bool(false),
+				PipelineEvents:        pointy.Bool(true),
+				DeploymentEvents:      pointy.Bool(true),
+				EnableSSLVerification: pointy.Bool(false), // add config for this later
+				URL:                   &WURL,
+				Token:                 &c.Config.Server.Webhook.SecretToken,
 			}
 
 			if len(hooks) == 0 { // if no hooks
@@ -364,17 +372,19 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 					return err
 				}
 			} else {
+				exists := false
 				for _, h := range hooks {
-					if h.URL == WURL { // if hook already exists stop
-						break
-					} else {
-						_, _, err := c.Gitlab.Projects.AddProjectHook( // else add hook
-							p.Name,
-							&opts,
-							goGitlab.WithContext(ctx))
-						if err != nil {
-							return err
-						}
+					if h.URL == WURL {
+						exists = true
+					}
+				}
+				if exists == false {
+					_, _, err := c.Gitlab.Projects.AddProjectHook( // else add hook
+						p.Name,
+						&opts,
+						goGitlab.WithContext(ctx))
+					if err != nil {
+						return err
 					}
 				}
 			}
