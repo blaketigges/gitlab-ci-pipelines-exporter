@@ -27,6 +27,20 @@ func Run(cliCtx *cli.Context) (int, error) {
 
 	ctx = context.WithValue(ctx, "cfgString", cliCtx.String("config"))
 
+	if cliCtx.String("gitlab-token") != "" {
+		ctx = context.WithValue(ctx, "gitlab-token", cliCtx.String("gitlab-token"))
+	}
+
+	if cfg.Server.Webhook.Enabled {
+		if cliCtx.String("webhook-secret-token") != "" {
+			ctx = context.WithValue(ctx, "webhook-secret-token", cliCtx.String("webhook-secret-token"))
+		}
+	}
+
+	if cliCtx.String("redis-url") != "" {
+		ctx = context.WithValue(ctx, "redis-url", cliCtx.String("redis-url"))
+	}
+
 	c, err := controller.New(ctx, cfg, cliCtx.App.Version)
 	if err != nil {
 		return 1, err

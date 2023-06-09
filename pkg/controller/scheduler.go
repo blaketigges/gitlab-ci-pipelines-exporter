@@ -302,16 +302,38 @@ func (c *Controller) TaskHandlerGarbageCollectMetrics(ctx context.Context) error
 }
 
 // TaskHandlerConfigUpdate ..
-func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) error {
+func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) (err error) {
 	defer c.unqueueTask(ctx, schemas.TaskTypeConfigUpdate, "_")
 	defer c.TaskController.monitorLastTaskScheduling(schemas.TaskTypeConfigUpdate)
 
 	cfg, err := config.ParseFile(ctx.Value("cfgString").(string))
-	if err == nil {
-		c.Config = cfg
+	if err != nil {
+		return err
 	}
 
-	return err
+	cfg.Global.InternalMonitoringListenerAddress = c.Config.Global.InternalMonitoringListenerAddress
+
+	if ctx.Value("gitlab-token") != "" {
+		cfg.Gitlab.Token = ctx.Value("gitlab-token").(string)
+	}
+
+	if cfg.Server.Webhook.Enabled {
+		if ctx.Value("webhook-secret-token") != "" {
+			cfg.Server.Webhook.SecretToken = ctx.Value("webhook-secret-token").(string)
+		}
+	}
+
+	if ctx.Value("redis-url") != "" {
+		cfg.Redis.URL = ctx.Value("redis-url").(string)
+	}
+
+	if err = cfg.Validate(); err != nil {
+		return
+	}
+
+	c.Config = cfg
+
+	return
 }
 
 // TaskHandlerAddWebhooks ..
