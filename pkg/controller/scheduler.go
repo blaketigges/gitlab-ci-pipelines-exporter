@@ -306,25 +306,25 @@ func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) (err error) {
 	defer c.unqueueTask(ctx, schemas.TaskTypeConfigUpdate, "_")
 	defer c.TaskController.monitorLastTaskScheduling(schemas.TaskTypeConfigUpdate)
 
-	cfg, err := config.ParseFile(ctx.Value("cfgString").(string))
+	cfg, err := config.ParseFile(c.Config.Cli.ConfigPath)
 	if err != nil {
 		return err
 	}
 
 	cfg.Global.InternalMonitoringListenerAddress = c.Config.Global.InternalMonitoringListenerAddress
 
-	if ctx.Value("gitlab-token") != "" {
-		cfg.Gitlab.Token = ctx.Value("gitlab-token").(string)
+	if c.Config.Cli.GitlabToken != "" {
+		cfg.Gitlab.Token = c.Config.Cli.GitlabToken
 	}
 
-	if cfg.Server.Webhook.Enabled {
-		if ctx.Value("webhook-secret-token") != "" {
-			cfg.Server.Webhook.SecretToken = ctx.Value("webhook-secret-token").(string)
+	if cfg.Server.Webhook.Enabled || c.Config.Server.Webhook.Enabled {
+		if c.Config.Cli.WebhookToken != "" {
+			cfg.Server.Webhook.SecretToken = c.Config.Cli.WebhookToken
 		}
 	}
 
-	if ctx.Value("redis-url") != "" {
-		cfg.Redis.URL = ctx.Value("redis-url").(string)
+	if c.Config.Cli.RedisURL != "" {
+		cfg.Redis.URL = c.Config.Cli.RedisURL
 	}
 
 	if err = cfg.Validate(); err != nil {

@@ -48,21 +48,27 @@ type Config struct {
 
 	// List of wildcards to search projects from
 	Wildcards []Wildcard `validate:"unique,at-least-1-project-or-wildcard,dive" yaml:"wildcards"`
+
+	// options from cli
+	Cli Cli
 }
 
 // Config refresh option.
 type ConfigUpdate struct {
 	// Enable refresh
 	Update struct {
-		OnInit         bool `default:"false" yaml:"on_init"`
-		Scheduled      bool `default:"true" yaml:"scheduled"`
-		IntervalSeonds int  `default:"1800" validate:"gte=1" yaml:"interval_seconds"`
+		OnInit          bool `default:"false" yaml:"on_init"`
+		Scheduled       bool `default:"true" yaml:"scheduled"`
+		IntervalSeconds int  `default:"1800" validate:"gte=1" yaml:"interval_seconds"`
 	} `yaml:"update_config"`
+}
 
-	configPath   string
-	gitlabToken  string
-	webhookToken string
-	redisURL     string
+// Options from the cli to save.
+type Cli struct {
+	ConfigPath   string
+	GitlabToken  string
+	WebhookToken string
+	RedisURL     string
 }
 
 // Log holds runtime logging configuration.
