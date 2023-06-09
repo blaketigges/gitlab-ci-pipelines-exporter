@@ -54,10 +54,15 @@ type Config struct {
 type ConfigUpdate struct {
 	// Enable refresh
 	Update struct {
-		OnInit          bool `default:"false" yaml:"on_init"`
-		Scheduled       bool `default:"true" yaml:"scheduled"`
-		IntervalSeconds int  `default:"1800" validate:"gte=1" yaml:"interval_seconds"`
+		OnInit         bool `default:"false" yaml:"on_init"`
+		Scheduled      bool `default:"true" yaml:"scheduled"`
+		IntervalSeonds int  `default:"1800" validate:"gte=1" yaml:"interval_seconds"`
 	} `yaml:"update_config"`
+
+	configPath   string
+	gitlabToken  string
+	webhookToken string
+	redisURL     string
 }
 
 // Log holds runtime logging configuration.
