@@ -393,3 +393,44 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 
 	return nil
 }
+
+func (c *Controller) RemoveWebhooks(ctx context.Context) error {
+	for _, w := range c.Config.Wildcards {
+		projects, err := c.Gitlab.ListProjects(ctx, w)
+		if err != nil {
+			return err
+		}
+
+		if len(projects) == 0 { // if no wildcards read config.projects
+			for _, p := range c.Config.Projects {
+				sp := schemas.Project{Project: p}
+				projects = append(projects, sp)
+			}
+		}
+
+		for _, p := range projects {
+			hooks, _, err := c.Gitlab.Projects.ListProjectHooks(
+				p.Name,
+				&goGitlab.ListProjectHooksOptions{},
+				goGitlab.WithContext(ctx),
+			)
+			if err != nil {
+				return err
+			}
+
+			WURL := c.Config.Server.Webhook.URL
+
+			for _, h := range hooks {
+				if h.URL == WURL {
+					c.Gitlab.Projects.DeleteProjectHook(
+						p.Name,
+						h.ID,
+						goGitlab.WithContext(ctx),
+					)
+				}
+			}
+		}
+	}
+
+	return nil
+}

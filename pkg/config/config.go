@@ -124,6 +124,9 @@ type ServerWebhook struct {
 
 	// Webhook URL
 	URL string `validate:"required_if=AddWebhooks.Scheduled true" yaml:"webhook_url"`
+
+	// Remove webhooks on shutdown
+	RemoveHooks bool `default:"false" yaml:"remove_webhooks"`
 }
 
 // Gitlab ..
