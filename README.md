@@ -1,12 +1,11 @@
 # 🦊 gitlab-ci-pipelines-exporter
 
-[![PkgGoDev](https://pkg.go.dev/badge/github.com/mvisonneau/gitlab-ci-pipelines-exporter)](https://pkg.go.dev/mod/github.com/mvisonneau/gitlab-ci-pipelines-exporter)
-[![Go Report Card](https://goreportcard.com/badge/github.com/mvisonneau/gitlab-ci-pipelines-exporter)](https://goreportcard.com/report/github.com/mvisonneau/gitlab-ci-pipelines-exporter)
-[![Docker Pulls](https://img.shields.io/docker/pulls/mvisonneau/gitlab-ci-pipelines-exporter.svg)](https://hub.docker.com/r/mvisonneau/gitlab-ci-pipelines-exporter/)
-[![test](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/actions/workflows/test.yml/badge.svg)](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/actions/workflows/test.yml)
-[![Coverage Status](https://coveralls.io/repos/github/mvisonneau/gitlab-ci-pipelines-exporter/badge.svg?branch=main)](https://coveralls.io/github/mvisonneau/gitlab-ci-pipelines-exporter?branch=main)
-[![release](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/actions/workflows/release.yml/badge.svg)](https://github.com/mvisonneau/gitlab-ci-pipelines-exporter/actions/workflows/release.yml)
-[![gitlab-ci-pipelines-exporter](https://snapcraft.io/gitlab-ci-pipelines-exporter/badge.svg)](https://snapcraft.io/gitlab-ci-pipelines-exporter)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/blaketigges/gitlab-ci-pipelines-exporter)](https://pkg.go.dev/mod/github.com/blaketigges/gitlab-ci-pipelines-exporter)
+[![Go Report Card](https://goreportcard.com/badge/github.com/blaketigges/gitlab-ci-pipelines-exporter)](https://goreportcard.com/report/github.com/blaketigges/gitlab-ci-pipelines-exporter)
+[![Docker Pulls](https://img.shields.io/docker/pulls/btigges/gitlab-ci-pipelines-exporter.svg)](https://hub.docker.com/r/btigges/gitlab-ci-pipelines-exporter/)
+[![test](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/actions/workflows/test.yml/badge.svg)](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/blaketigges/gitlab-ci-pipelines-exporter/badge.svg?branch=main)](https://coveralls.io/github/blaketigges/gitlab-ci-pipelines-exporter?branch=main)
+[![release](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/actions/workflows/release.yml/badge.svg)](https://github.com/blaketigges/gitlab-ci-pipelines-exporter/actions/workflows/release.yml)
 
 `gitlab-ci-pipelines-exporter` allows you to monitor your [GitLab CI pipelines](https://docs.gitlab.com/ee/ci/pipelines/) with [Prometheus](https://prometheus.io/) or any monitoring solution supporting the [OpenMetrics](https://github.com/OpenObservability/OpenMetrics) format.
 
