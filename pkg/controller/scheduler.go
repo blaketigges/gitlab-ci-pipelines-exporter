@@ -301,41 +301,6 @@ func (c *Controller) TaskHandlerGarbageCollectMetrics(ctx context.Context) error
 	return c.GarbageCollectMetrics(ctx)
 }
 
-// TaskHandlerConfigUpdate ..
-func (c *Controller) TaskHandlerConfigUpdate(ctx context.Context) (err error) {
-	defer c.unqueueTask(ctx, schemas.TaskTypeConfigUpdate, "_")
-	defer c.TaskController.monitorLastTaskScheduling(schemas.TaskTypeConfigUpdate)
-
-	cfg, err := config.ParseFile(c.Config.Cli.ConfigPath)
-	if err != nil {
-		return err
-	}
-
-	cfg.Global.InternalMonitoringListenerAddress = c.Config.Global.InternalMonitoringListenerAddress
-
-	if c.Config.Cli.GitlabToken != "" {
-		cfg.Gitlab.Token = c.Config.Cli.GitlabToken
-	}
-
-	if cfg.Server.Webhook.Enabled || c.Config.Server.Webhook.Enabled {
-		if c.Config.Cli.WebhookToken != "" {
-			cfg.Server.Webhook.SecretToken = c.Config.Cli.WebhookToken
-		}
-	}
-
-	if c.Config.Cli.RedisURL != "" {
-		cfg.Redis.URL = c.Config.Cli.RedisURL
-	}
-
-	if err = cfg.Validate(); err != nil {
-		return
-	}
-
-	c.Config = cfg
-
-	return
-}
-
 // TaskHandlerAddWebhooks ..
 func (c *Controller) TaskHandlerAddWebhooks(ctx context.Context) error {
 	defer c.unqueueTask(ctx, schemas.TaskTypeAddWebhooks, "_")
@@ -345,7 +310,7 @@ func (c *Controller) TaskHandlerAddWebhooks(ctx context.Context) error {
 }
 
 // Schedule ..
-func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.GarbageCollect, update config.ConfigUpdate, wh config.ServerWebhook) {
+func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.GarbageCollect, wh config.ServerWebhook) {
 	ctx, span := otel.Tracer(tracerName).Start(ctx, "controller:Schedule")
 	defer span.End()
 
@@ -358,7 +323,6 @@ func (c *Controller) Schedule(ctx context.Context, pull config.Pull, gc config.G
 		schemas.TaskTypeGarbageCollectEnvironments:   config.SchedulerConfig(gc.Environments),
 		schemas.TaskTypeGarbageCollectRefs:           config.SchedulerConfig(gc.Refs),
 		schemas.TaskTypeGarbageCollectMetrics:        config.SchedulerConfig(gc.Metrics),
-		schemas.TaskTypeConfigUpdate:                 config.SchedulerConfig(update.Update),
 		schemas.TaskTypeAddWebhooks:                  config.SchedulerConfig(wh.AddWebhooks),
 	} {
 		if cfg.OnInit {

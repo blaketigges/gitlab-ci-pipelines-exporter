@@ -43,9 +43,6 @@ const (
 	// TaskTypeGarbageCollectMetrics ..
 	TaskTypeGarbageCollectMetrics TaskType = "GarbageCollectMetrics"
 
-	// TaskTypeConfigUpdate ..
-	TaskTypeConfigUpdate TaskType = "ConfigUpdate"
-
 	// TaskTypeAddWebhooks ..
 	TaskTypeAddWebhooks TaskType = "AddWebhooks"
 )

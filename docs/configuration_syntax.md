@@ -119,20 +119,6 @@ gitlab:
   # (optional, default: 1000)
   maximum_jobs_queue_size: 1000
 
-config_update:
-  update_config:
-    # Whether to update config when
-    # exporter starts (optional, default: false)
-    on_init: false
-
-    # Whether to attempt updating the config
-    # on a regular basis (optional, default: true)
-    scheduled: true
-
-    # Interval in seconds to update config
-    # (optional, default: 1800)
-    interval_seconds: 1800
-
 pull:
   projects_from_wildcards:
     # Whether to trigger a discovery or not when the

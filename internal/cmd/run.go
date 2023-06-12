@@ -25,22 +25,6 @@ func Run(cliCtx *cli.Context) (int, error) {
 	ctx, ctxCancel := context.WithCancel(context.Background())
 	defer ctxCancel()
 
-	cfg.Cli.ConfigPath = cliCtx.String("config")
-
-	if cliCtx.String("gitlab-token") != "" {
-		cfg.Cli.GitlabToken = cliCtx.String("gitlab-token")
-	}
-
-	if cfg.Server.Webhook.Enabled {
-		if cliCtx.String("webhook-secret-token") != "" {
-			cfg.Cli.WebhookToken = cliCtx.String("webhook-secret-token")
-		}
-	}
-
-	if cliCtx.String("redis-url") != "" {
-		cfg.Cli.RedisURL = cliCtx.String("redis-url")
-	}
-
 	c, err := controller.New(ctx, cfg, cliCtx.App.Version)
 	if err != nil {
 		return 1, err

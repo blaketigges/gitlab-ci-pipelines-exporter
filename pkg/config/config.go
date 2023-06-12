@@ -40,9 +40,6 @@ type Config struct {
 	// Default parameters which can be overridden at either the Project or Wildcard level
 	ProjectDefaults ProjectParameters `yaml:"project_defaults" validate:"dive"`
 
-	// Config refresh
-	ConfigUpdate ConfigUpdate `yaml:"config_update" validate:"dive"`
-
 	// List of projects to pull
 	Projects []Project `validate:"unique,at-least-1-project-or-wildcard,dive" yaml:"projects"`
 
@@ -51,16 +48,6 @@ type Config struct {
 
 	// options from cli
 	Cli Cli
-}
-
-// Config refresh option.
-type ConfigUpdate struct {
-	// Enable refresh
-	Update struct {
-		OnInit          bool `default:"false" yaml:"on_init"`
-		Scheduled       bool `default:"true" yaml:"scheduled"`
-		IntervalSeconds int  `default:"1800" validate:"gte=1" yaml:"interval_seconds"`
-	} `yaml:"update_config"`
 }
 
 // Options from the cli to save.
@@ -243,7 +230,6 @@ func (c *Config) UnmarshalYAML(v *yaml.Node) (err error) {
 		Pull            Pull              `yaml:"pull"`
 		GarbageCollect  GarbageCollect    `yaml:"garbage_collect"`
 		ProjectDefaults ProjectParameters `yaml:"project_defaults"`
-		ConfigUpdate    ConfigUpdate      `yaml:"config_update"`
 
 		Projects  []yaml.Node `yaml:"projects"`
 		Wildcards []yaml.Node `yaml:"wildcards"`
@@ -264,7 +250,6 @@ func (c *Config) UnmarshalYAML(v *yaml.Node) (err error) {
 	c.Pull = _cfg.Pull
 	c.GarbageCollect = _cfg.GarbageCollect
 	c.ProjectDefaults = _cfg.ProjectDefaults
-	c.ConfigUpdate = _cfg.ConfigUpdate
 
 	for _, n := range _cfg.Projects {
 		p := c.NewProject()
