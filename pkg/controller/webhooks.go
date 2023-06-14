@@ -344,11 +344,7 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 		}
 
 		for _, p := range projects {
-			hooks, _, err := c.Gitlab.Projects.ListProjectHooks(
-				p.Name,
-				&goGitlab.ListProjectHooksOptions{},
-				goGitlab.WithContext(ctx),
-			)
+			hooks, err := c.Gitlab.GetProjectHooks(ctx, p.Name)
 			if err != nil {
 				return err
 			}
@@ -364,10 +360,7 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 			}
 
 			if len(hooks) == 0 { // if no hooks
-				_, _, err := c.Gitlab.Projects.AddProjectHook( // add hook
-					p.Name,
-					&opts,
-					goGitlab.WithContext(ctx))
+				_, err := c.Gitlab.AddProjectHook(ctx, p.Name, &opts)
 				if err != nil {
 					return err
 				}
@@ -379,10 +372,7 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 					}
 				}
 				if exists == false {
-					_, _, err := c.Gitlab.Projects.AddProjectHook( // else add hook
-						p.Name,
-						&opts,
-						goGitlab.WithContext(ctx))
+					_, err := c.Gitlab.AddProjectHook(ctx, p.Name, &opts)
 					if err != nil {
 						return err
 					}
@@ -409,11 +399,7 @@ func (c *Controller) RemoveWebhooks(ctx context.Context) error {
 		}
 
 		for _, p := range projects {
-			hooks, _, err := c.Gitlab.Projects.ListProjectHooks(
-				p.Name,
-				&goGitlab.ListProjectHooksOptions{},
-				goGitlab.WithContext(ctx),
-			)
+			hooks, err := c.Gitlab.GetProjectHooks(ctx, p.Name)
 			if err != nil {
 				return err
 			}
@@ -422,11 +408,10 @@ func (c *Controller) RemoveWebhooks(ctx context.Context) error {
 
 			for _, h := range hooks {
 				if h.URL == WURL {
-					c.Gitlab.Projects.DeleteProjectHook(
-						p.Name,
-						h.ID,
-						goGitlab.WithContext(ctx),
-					)
+					err := c.Gitlab.RemoveProjectHook(ctx, p.Name, h.ID)
+					if err != nil {
+						return err
+					}
 				}
 			}
 		}
