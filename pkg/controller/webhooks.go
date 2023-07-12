@@ -365,6 +365,8 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 				if err != nil {
 					return err
 				}
+
+				log.WithField("project_name", p.Name).Info("added webhook")
 			} else {
 				exists := false
 				for _, h := range hooks {
@@ -377,6 +379,8 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 					if err != nil {
 						return err
 					}
+
+					log.WithField("project_name", p.Name).Info("added webhook")
 				}
 			}
 		}
@@ -413,6 +417,8 @@ func (c *Controller) RemoveWebhooks(ctx context.Context) error {
 					if err != nil {
 						return err
 					}
+
+					log.WithField("project_name", p.Name).Info("removed webhook")
 				}
 			}
 		}
