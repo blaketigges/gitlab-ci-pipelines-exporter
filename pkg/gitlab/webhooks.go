@@ -57,6 +57,31 @@ func (c *Client) AddProjectHook(ctx context.Context, projectName string, options
 	return hook, nil
 }
 
+// EditProjectHook ..
+func (c *Client) EditProjectHook(ctx context.Context, projectName string, hid int, options *goGitlab.EditProjectHookOptions) (hook *goGitlab.ProjectHook, err error) {
+	ctx, span := otel.Tracer(tracerName).Start(ctx, "gitlab:EditProjectHook")
+	defer span.End()
+	span.SetAttributes(attribute.String("project_name", projectName))
+
+	log.WithField("project_name", projectName).Trace("editing project hook")
+
+	c.rateLimit(ctx)
+
+	hook, resp, err := c.Projects.EditProjectHook(
+		projectName,
+		hid,
+		options,
+		goGitlab.WithContext(ctx),
+	)
+	if err != nil {
+		return
+	}
+
+	c.requestsRemaining(resp)
+
+	return hook, nil
+}
+
 // RemoveProjectHook ..
 func (c *Client) RemoveProjectHook(ctx context.Context, projectName string, hookID int) (err error) {
 	ctx, span := otel.Tracer(tracerName).Start(ctx, "gitlab:RemoveProjectHook")

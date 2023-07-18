@@ -60,6 +60,9 @@ server:
       # Interval in seconds to add webhooks to projects 
       # from wildcards (optional, default: 43200)
       interval_seconds: 43200
+      
+    # Webhook job events. Trigger webhook on job status change instead of pipeline status change. 
+    job_events: false
 
     # GCPE Webhook endpoint URL 
     webhook_url: https://gcpe.example.net/webhook

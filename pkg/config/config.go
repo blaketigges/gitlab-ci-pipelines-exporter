@@ -98,6 +98,9 @@ type ServerWebhook struct {
 		IntervalSeconds int  `default:"43200" validate:"gte=1" yaml:"interval_seconds"`
 	} `yaml:"add_webhooks"`
 
+	// Enabled job events from the webhook and disable pipeline events, more accurate but more requests
+	JobEvents bool `default:"false" yaml:"job_events"`
+
 	// Webhook URL
 	URL string `validate:"required_if=AddWebhooks.Scheduled true" yaml:"webhook_url"`
 

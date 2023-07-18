@@ -3,6 +3,7 @@ package controller
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
@@ -34,6 +35,37 @@ func (c *Controller) processPipelineEvent(ctx context.Context, e goGitlab.Pipeli
 
 	c.triggerRefMetricsPull(ctx, schemas.NewRef(
 		schemas.NewProject(e.Project.PathWithNamespace),
+		refKind,
+		refName,
+	))
+}
+
+func (c *Controller) processJobEvent(ctx context.Context, e goGitlab.JobEvent) {
+	var (
+		refKind schemas.RefKind
+		refName = e.Ref
+	)
+
+	ref := strings.Split(e.Ref, "/")
+
+	if len(ref) > 1 {
+		refKind = schemas.RefKindMergeRequest
+		refName = ref[2]
+	} else if e.Tag {
+		refKind = schemas.RefKindTag
+	} else {
+		refKind = schemas.RefKindBranch
+	}
+
+	u, err := url.Parse(e.Repository.Homepage)
+	if err != nil {
+		return
+	}
+
+	pwns := u.Path[1:] // Get path_with_namespace from the url as it is not included in the job event
+
+	c.triggerRefMetricsPull(ctx, schemas.NewRef(
+		schemas.NewProject(pwns),
 		refKind,
 		refName,
 	))
@@ -350,12 +382,15 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 				return err
 			}
 
+			JE := c.Config.Server.Webhook.JobEvents
+			PE := !JE
 			WURL := c.Config.Server.Webhook.URL
 			opts := goGitlab.AddProjectHookOptions{ // options for hook
 				PushEvents:            pointy.Bool(false),
-				PipelineEvents:        pointy.Bool(true),
+				PipelineEvents:        &PE,
 				DeploymentEvents:      pointy.Bool(true),
 				EnableSSLVerification: pointy.Bool(false),
+				JobEvents:             &JE,
 				URL:                   &WURL,
 				Token:                 &c.Config.Server.Webhook.SecretToken,
 			}
@@ -370,8 +405,19 @@ func (c *Controller) addWebhooks(ctx context.Context) error {
 			} else {
 				exists := false
 				for _, h := range hooks {
-					if h.URL == WURL {
+					if h.URL == WURL && h.JobEvents == JE && h.PipelineEvents == PE {
 						exists = true
+					} else if h.URL == WURL { // If it exists but other options arent the same
+						eopts := goGitlab.EditProjectHookOptions{
+							JobEvents:      &JE,
+							PipelineEvents: &PE,
+						}
+						_, err := c.Gitlab.EditProjectHook(ctx, p.Name, h.ID, &eopts)
+						if err != nil {
+							return err
+						}
+						exists = true
+						log.WithField("project_name", p.Name).Info("updated webhook settings")
 					}
 				}
 				if exists == false {
